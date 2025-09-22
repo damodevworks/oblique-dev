@@ -1,10 +1,10 @@
+// utils
+@use 'utils/variables' as var;
+@use 'utils/mixins' as m;
+
 // base
 @use 'base/reset';
 @use 'base/typography';
-
-// utils
-@use 'utils/variables' as vars;
-@use 'utils/mixins' as m;
 
 // layout
 // @use 'layout/sections';

@@ -1,0 +1,25 @@
+// -- Colours
+$colour-white: #EDF2F4;
+$colour-primary: #A3534C;
+$colour-accent: #DFBC21;
+$colour-black: #0F0A0A;
+
+// -- Typography
+$font-primary: "Playfair Display", serif;
+$font-secondary: "Barlow", sans-serif;
+$font-accent: "JetBrains Mono", monospace;
+
+// -- Weights
+$w-accent: 100;
+$w-regular: 400;
+$w-button: 500;
+
+// -- Shadows
+$shadow-1: 0 2px 8px rgba(0,0,0,.15);
+$shadow-2: 0 8px 24px rgba(0,0,0,.2);
+
+// -- Breakpoints
+$bp-sm: 480px;
+$bp-md: 768px;
+$bp-lg: 1200px;
+$bp-xl: 1440px;

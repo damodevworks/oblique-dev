@@ -1,0 +1,19 @@
+@use '../utils/variables' as var;
+
+body {
+  font-size: 1.6rem; 
+  font-family: var.$font-primary;
+  line-height: 1.5;
+  color: var.$colour-black;
+  font-weight: var.$w-regular;
+}
+
+:where(h1, h2, h3, h4, h5, h6) { 
+  font-family: var.$font-primary;
+  font-weight: var.$w-regular; // 400
+ }
+
+
+h1 {
+    font-size: 5rem
+}
