@@ -1,0 +1,46 @@
+@use '../utils/variables' as var;
+
+.loader {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    gap: 1.5rem;
+}
+
+.title {
+    text-align: center;
+    font-size: 7rem;
+    letter-spacing: -1.92px;
+}
+
+.progress {
+    text-align: center;
+    font-family: var.$font-secondary;
+    font-size: 2rem;
+    font-style: normal;
+    font-weight: var.$w-regular;
+    line-height: normal;
+    letter-spacing: -0.484px;
+}
+
+.loading-bar {
+    width: 600px;
+    height: 1.6px;
+    background: var.$colour-black;
+    border-radius: 9999px;
+    overflow: hidden;
+}
+
+.loading-status {
+    text-align: center;
+    font-family: var.$font-accent;
+    font-size: 2rem;
+    font-style: normal;
+    font-weight: var.$w-accent;
+    line-height: normal;
+    letter-spacing: -0.484px;
+}
