@@ -15,6 +15,9 @@
     text-align: center;
     font-size: 7rem;
     letter-spacing: -1.92px;
+    -webkit-user-select: none;  /* Safari */
+    -ms-user-select: none;      /* IE 10 and IE 11 */
+    user-select: none;          /* Standard syntax */
 }
 
 .progress {
@@ -25,6 +28,9 @@
     font-weight: var.$w-regular;
     line-height: normal;
     letter-spacing: -0.484px;
+     -webkit-user-select: none;  /* Safari */
+    -ms-user-select: none;      /* IE 10 and IE 11 */
+    user-select: none;          /* Standard syntax */
 }
 
 .loading-bar {
@@ -43,4 +49,7 @@
     font-weight: var.$w-accent;
     line-height: normal;
     letter-spacing: -0.484px;
+     -webkit-user-select: none;  /* Safari */
+    -ms-user-select: none;      /* IE 10 and IE 11 */
+    user-select: none;          /* Standard syntax */
 }
