@@ -33,12 +33,22 @@
     user-select: none;          /* Standard syntax */
 }
 
-.loading-bar {
+.loading-bar-container {
     width: 600px;
     height: 1.6px;
-    background: var.$colour-black;
+    position: relative;
     border-radius: 9999px;
     overflow: hidden;
+}
+
+.loading-bar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: var.$colour-black;
+    transform-origin: left;
 }
 
 .loading-status {

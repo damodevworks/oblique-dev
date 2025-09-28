@@ -1,3 +1,6 @@
+// Importing modules
+import { animateLoadingBar } from "../gsap/loader";
+
 // Array of loading messages to display randomly
 const messages = [
   "indexing fragments…",
@@ -50,6 +53,7 @@ function updateMessage(el, msg, delay) {
 
 // Initializes both the progress bar and message display
 export function bootLoader() {
+    animateLoadingBar();
     updateProgress(progressPercentage, progressStep, progressInterval);
     updateMessage(loadingStatus, messages, messageInterval);
 }
