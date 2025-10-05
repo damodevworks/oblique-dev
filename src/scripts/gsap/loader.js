@@ -1,4 +1,6 @@
 import { gsap } from 'gsap';
+import { SplitText } from 'gsap/SplitText';
+gsap.registerPlugin(SplitText);
 
 // -----------------------------------------------------------------------------
 // Constants: configuration for the loading bar and its animation timing
@@ -15,6 +17,81 @@ let tl = gsap.timeline();
 // Mutable state: store a single tween instance for the loading bar
 // -----------------------------------------------------------------------------
 let progressTween; // Store a single tween instance
+
+// -----------------------------------------------------------------------------
+// Split the title into individual letters
+// -----------------------------------------------------------------------------
+let split;
+
+// Wait for fonts to load before doing anything with SplitText
+document.fonts.ready.then(() => {
+    split = new SplitText('.reveal-title', {
+        type: "chars"
+    });
+});
+
+// -----------------------------------------------------------------------------
+// GSAP Animation Sequence
+// -----------------------------------------------------------------------------
+function animateCurtainReveal() {
+  tl.clear();
+    
+    // Debug log
+    console.log("Starting animation sequence");
+    
+    tl.to('.loading-bar-container', {
+        width: "100vw",  
+        duration: 1,
+        ease: "expo.inOut",
+        left: "0"  
+    });
+
+    tl.to(['.reveal-top', '.reveal-bottom'], {  
+        duration: 0.5,
+        scaleY: 1,
+        ease: "expo.inOut"
+    });
+
+    // First make the title element visible
+    tl.to('.reveal-title', {
+        opacity: 1,
+        duration: 0.1
+    });
+
+   // Set initial state for chars
+    gsap.set(split.chars, { opacity: 0 });
+
+    // Animate chars in sequence
+    tl.to(split.chars, {
+        opacity: 1,
+        duration: 0.5,
+        stagger: 0.1,
+        ease: "none"
+    });
+
+    tl.to(split.chars, {
+        opacity: 0,
+        duration: 0.5,
+        stagger: 0.1,
+        ease: "none"
+    });
+
+    tl.set('.loader', { 
+        display: 'none',
+        onComplete: () => {
+            document.body.classList.remove('is-loading');
+        }
+    });
+
+    tl.to(['.reveal-top', '.reveal-bottom'], {
+        duration: 0.8,
+        scaleY: 0,
+        ease: "expo.inOut",
+        onComplete: () => {
+            document.querySelector('.reveal').remove();
+        }
+    });
+}
 
 // -----------------------------------------------------------------------------
 // Tween creation / management
@@ -47,6 +124,7 @@ function updateBar(getProgress) {
         if (currentProgress === 100) {
             clearInterval(trackProgress);
             setSeamAfterLayout();
+            animateCurtainReveal(); // Run the animation sequence
         }
     }, barInterval);
 }
