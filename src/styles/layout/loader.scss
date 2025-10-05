@@ -1,5 +1,9 @@
 @use '../utils/variables' as var;
 
+body.is-loading {
+  overflow: hidden;
+}
+
 .loader {
     height: 100vh;
     width: 100%;
@@ -63,4 +67,34 @@
      -webkit-user-select: none;  /* Safari */
     -ms-user-select: none;      /* IE 10 and IE 11 */
     user-select: none;          /* Standard syntax */
+}
+
+// Animation Section - - - Reveal
+.reveal {
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    pointer-events: none;
+    --seamY: 40px;
+}
+
+.curtain {
+    position: absolute;
+    width: 100vw;
+    left: 0;
+    background-color: var.$colour-black;
+}
+
+.reveal-top {
+    top: 0;
+  height: var(--seamY);
+  transform-origin: bottom; 
+  transform: scaleY(0);  
+}
+
+.reveal-bottom {
+     top: var(--seamY);
+  height: calc(100dvh - var(--seamY));
+  transform-origin: top;
+  transform: scaleY(0);
 }
