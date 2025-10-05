@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500&family=JetBrains+Mono:wght@100&family=Playfair+Display&display=swap" rel="stylesheet">
     <title>Oblique</title>
   </head>
-  <body>
+  <body class="is-loading">
     
     <div class="loader">
       <h1 class="title">Oblique</h1>
@@ -18,9 +18,17 @@
       <div class="loading-bar-container">
         <div class="loading-bar"></div>
       </div>
-      
       <p class="loading-status"></p>
     </div>
+
+      <div class="reveal" inert>
+        <div class="curtain reveal-top"></div>
+        <div class="curtain reveal-bottom"></div>
+      </div>
+
+        <header>
+          <h1>Hey I'm the content you're meant to see!</h1>
+        </header>
 
 
     <script type="module" src="/src/scripts/main.js"></script>
