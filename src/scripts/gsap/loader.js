@@ -1,15 +1,26 @@
 import { gsap } from 'gsap';
 
-//GSAP timeline used for reveal
-let tl = gsap.timeline();
-
-
-// Loading bar parameters
+// -----------------------------------------------------------------------------
+// Constants: configuration for the loading bar and its animation timing
+// -----------------------------------------------------------------------------
 const barInterval = 300; // Update progress every 300ms
 const animationDuration = 0.3;
 
+// -----------------------------------------------------------------------------
+// GSAP timeline used for reveal (kept for potential timeline sequencing)
+// -----------------------------------------------------------------------------
+let tl = gsap.timeline();
+
+// -----------------------------------------------------------------------------
+// Mutable state: store a single tween instance for the loading bar
+// -----------------------------------------------------------------------------
 let progressTween; // Store a single tween instance
 
+// -----------------------------------------------------------------------------
+// Tween creation / management
+// - createProgressTween: create the tween once and keep it paused until used
+// - updateBar: poll the provided getProgress function and update the tween
+// -----------------------------------------------------------------------------
 function createProgressTween() {
     // Create the tween once with initial values
     progressTween = gsap.to('.loading-bar', {
@@ -40,7 +51,12 @@ function updateBar(getProgress) {
     }, barInterval);
 }
 
-// Measuring the middle of the loading bar
+// -----------------------------------------------------------------------------
+// Seam measurement and layout helpers
+// - measureSeam: measure the vertical position (middle) of the loading bar
+// - setSeam: write the measured seam into a CSS custom property
+// - setSeamAfterLayout: ensure measurement after layout using requestAnimationFrame
+// -----------------------------------------------------------------------------
 function measureSeam() {
   const barContainer = document.querySelector('.loading-bar-container');
   const rect = barContainer.getBoundingClientRect();
@@ -67,6 +83,10 @@ function setSeamAfterLayout() {
   });
 }
 
+// -----------------------------------------------------------------------------
+// Public API
+// - bootAnimation: entry point used by the app to start tracking progress
+// -----------------------------------------------------------------------------
 export function bootAnimation(stage) {
     updateBar(stage);
 };
