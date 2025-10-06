@@ -60,12 +60,15 @@ function updateProgress(el, step, delay) {
 
     // Start a new interval
     progressTimer = setInterval(() => {
-        currentStage += step;
+        // Clamp currentStage between 0 and 100
+        currentStage = Math.min(100, Math.max(0, currentStage + step));
         el.innerText = `${currentStage}%`;
 
         // Stop once loading reaches 100%
         if (currentStage >= 100) {
             finishLoading(); // Clean up all intervals
+            // Ensure exact final value for visual consistency
+            el.innerText = "100%";
         }
     }, delay);
 }
