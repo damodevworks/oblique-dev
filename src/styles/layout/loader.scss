@@ -54,6 +54,7 @@ body.is-loading {
     background: var.$colour-black;
     transform: scaleX(0%);
     transform-origin: left;
+    will-change: transform
 }
 
 .loading-status {
@@ -89,7 +90,8 @@ body.is-loading {
     top: 0;
   height: var(--seamY);
   transform-origin: bottom; 
-  transform: scaleY(0);  
+  transform: scaleY(0); 
+  will-change: transform 
 }
 
 .reveal-bottom {
@@ -97,6 +99,7 @@ body.is-loading {
   height: calc(100dvh - var(--seamY));
   transform-origin: top;
   transform: scaleY(0);
+  will-change: transform
 }
 
 .reveal-title {
@@ -112,4 +115,20 @@ body.is-loading {
     -webkit-user-select: none;  /* Safari */
     -ms-user-select: none;      /* IE 10 and IE 11 */
     user-select: none;          /* Standard syntax */
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+    .reveal {
+        display: none;
+    }
+
+    body.is-loading {
+        overflow: initial;
+    }
+
+    header {
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
 }

@@ -31,13 +31,48 @@ document.fonts.ready.then(() => {
 });
 
 // -----------------------------------------------------------------------------
+// Accessibility helper: detect if user prefers reduced motion
+// - returns true when the prefers-reduced-motion media query is set to reduce
+// -----------------------------------------------------------------------------
+function shouldReduceMotion() {
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+
+// -----------------------------------------------------------------------------
+// Immediate non-animated reveal for reduced-motion or fallback
+// - apply final states immediately: remove loader/reveal DOM, clear loading class
+// - ensure header (or other content) is visible without animation
+// -----------------------------------------------------------------------------
+function instantReveal() {
+    // Set final states immediately
+    document.querySelector('.reveal').remove();
+    document.querySelector('.loader').remove();
+    document.body.classList.remove('is-loading');
+    gsap.set('header', { 
+        visibility: 'visible',
+        opacity: 1 
+    });
+}
+
+// -----------------------------------------------------------------------------
+// Main curtain reveal animation sequence
+// - orchestrates the reveal timeline and respects the user's motion preference
+// - if reduced motion is requested, delegate to instantReveal and exit early
+// -----------------------------------------------------------------------------
+
+
+function animateCurtainReveal() {
+
+     if (shouldReduceMotion()) {
+        instantReveal();
+        return; // Exit early, skip all animations
+    }
+    
+// -----------------------------------------------------------------------------
 // GSAP Animation Sequence
 // -----------------------------------------------------------------------------
-function animateCurtainReveal() {
+
   tl.clear();
-    
-    // Debug log
-    console.log("Starting animation sequence");
     
     tl.to('.loading-bar-container', {
         width: "100vw",  
@@ -89,6 +124,7 @@ function animateCurtainReveal() {
         ease: "expo.inOut",
         onComplete: () => {
             document.querySelector('.reveal').remove();
+            document.querySelector('.loader').remove();
         }
     });
 }
