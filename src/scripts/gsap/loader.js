@@ -184,9 +184,14 @@ function updateBar(getProgress) {
         progressTween.invalidate().restart(); // Refresh and replay the tween
 
         if (currentProgress === 100) {
+             progressTween.vars.scaleX = 1.0; // Exact value at the end
+            progressTween.invalidate().restart().pause(0); // Prevent flicker
             clearInterval(trackProgress);
             setSeamAfterLayout();
-            animateCurtainReveal(); // Run the animation sequence
+            animateCurtainReveal();
+        } else {
+            progressTween.vars.scaleX = currentProgress / 100;
+             progressTween.invalidate().restart();
         }
     }, barInterval);
 }
