@@ -24,11 +24,17 @@ let progressTween; // Store a single tween instance
 let split;
 
 // Wait for fonts to load before doing anything with SplitText
-document.fonts.ready.then(() => {
-    split = new SplitText('.reveal-title', {
-        type: "chars"
-    });
-});
+async function ensureSplitTextReady() {
+    if (!split) {
+    await document.fonts?.ready;
+    try {
+        split = new SplitText('.reveal-title', {type: "chars"});
+    } catch (e) {
+        return false;
+        }
+    }
+    return true;
+}
 
 // -----------------------------------------------------------------------------
 // Accessibility helper: detect if user prefers reduced motion
@@ -62,7 +68,7 @@ function instantReveal() {
 
 let isRevealed = false // Variable for idempotence
 
-function animateCurtainReveal() {
+async function animateCurtainReveal() {
 
     // Checking if the function has been triggered before
     if (isRevealed) {
@@ -95,17 +101,17 @@ function animateCurtainReveal() {
         ease: "expo.inOut"
     });
 
+    const canSplit = await ensureSplitTextReady(); // See if we can split text
+
+    // Split title if we can!
+    if (canSplit) {
     // First make the title element visible
     tl.to('.reveal-title', {
         opacity: 1,
         duration: 0.1
     });
-
-   // Set initial state for chars
     gsap.set(split.chars, { opacity: 0 });
-
-    // Animate chars in sequence
-    tl.to(split.chars, {
+     tl.to(split.chars, {
         opacity: 1,
         duration: 0.5,
         stagger: 0.1,
@@ -118,6 +124,18 @@ function animateCurtainReveal() {
         stagger: 0.1,
         ease: "none"
     });
+    } else {
+        tl.to('.reveal-title', {
+            opacity: 1,
+            duration: 0.5,
+            ease: "none"
+        });
+        tl.to('.reveal-title', {
+            opacity: 0,
+            duration: 0.5,
+            ease: "none"
+        });
+    }
 
     tl.set('.loader', { 
         display: 'none',
