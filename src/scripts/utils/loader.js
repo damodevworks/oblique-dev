@@ -33,17 +33,39 @@ const progressStep = 1;        // Increment per tick (%)
 let currentStage = 0;          // Tracks overall progress (0–100)
 let milestoneIndex = 0;        // Tracks which milestone we’re currently on
 let lastMessageIndex = -1;     // Prevents repeating the same message twice in a row
+let progressTimer = null;    // Global variable for checking active intervals
+let displayMessageTimer = null // Global variable for checking active intervals
+
+// ---- Check if we have active intervals ----
+function finishLoading() {
+    if (progressTimer) {
+        clearInterval(progressTimer);
+        progressTimer = null;
+    }
+
+    if (displayMessageTimer) {
+        clearInterval(displayMessageTimer);
+        displayMessageTimer = null;
+    }
+} 
 
 // --- Progress Counter ---
 // Increments the percentage value until full completion.
 function updateProgress(el, step, delay) {
-    const progressTimer = setInterval(() => {
+    // Check if we have active interval already
+    if (progressTimer) {
+        clearInterval(progressTimer); // Clear it if we do
+        progressTimer = null;
+    }
+
+    // Start a new interval
+    progressTimer = setInterval(() => {
         currentStage += step;
         el.innerText = `${currentStage}%`;
 
         // Stop once loading reaches 100%
         if (currentStage >= 100) {
-            clearInterval(progressTimer);
+            finishLoading(); // Clean up all intervals
         }
     }, delay);
 }
@@ -65,13 +87,19 @@ const pickMessage = () => {
 // Displays a new message each time a milestone threshold is crossed.
 function updateMessage(el, delay) {
     el.innerText = pickMessage();
+    // Check if we have active interval already
+    if (displayMessageTimer) {
+        clearInterval(displayMessageTimer); // Clear it if we do
+        displayMessageTimer = null;
+    }
 
-    const displayMessage = setInterval(() => {
+     displayMessageTimer = setInterval(() => {
         if (currentStage >= milestones[milestoneIndex]) {
             // If this is the final milestone, display one last message and stop.
             if (milestoneIndex === milestones.length - 1) {
                 el.innerText = pickMessage();
-                clearInterval(displayMessage);
+                clearInterval(displayMessageTimer);
+                displayMessageTimer = null;  
             } else {
                 milestoneIndex++;
                 el.innerText = pickMessage();

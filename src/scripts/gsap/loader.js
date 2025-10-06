@@ -60,18 +60,26 @@ function instantReveal() {
 // - if reduced motion is requested, delegate to instantReveal and exit early
 // -----------------------------------------------------------------------------
 
+let isRevealed = false // Variable for idempotence
 
 function animateCurtainReveal() {
 
+    // Checking if the function has been triggered before
+    if (isRevealed) {
+        return;
+    }
+
+    // Checking for user preference
      if (shouldReduceMotion()) {
         instantReveal();
         return; // Exit early, skip all animations
     }
-    
+
 // -----------------------------------------------------------------------------
 // GSAP Animation Sequence
 // -----------------------------------------------------------------------------
 
+  isRevealed = true; // Mark it as revealed
   tl.clear();
     
     tl.to('.loading-bar-container', {
