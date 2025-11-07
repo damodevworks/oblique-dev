@@ -2,6 +2,27 @@ import { gsap } from 'gsap';
 import { SplitText } from 'gsap/SplitText';
 gsap.registerPlugin(SplitText);
 
+
+// -----------------------------------------------------------------------------
+// Debounce function for setting the seam correctly 
+// -----------------------------------------------------------------------------
+function debounce(fn, wait) {
+    let timeout;
+
+    const debounced = function(...args) {
+        const context = this;
+        clearTimeout(timeout);
+
+        timeout = setTimeout(() => fn.apply(context, args), wait); 
+    };
+
+    debounced.cancel = function() {
+            clearTimeout(timeout)
+        };
+
+        return debounced;
+};
+
 // -----------------------------------------------------------------------------
 // Constants: configuration for the loading bar and its animation timing
 // -----------------------------------------------------------------------------
@@ -22,6 +43,11 @@ let progressTween; // Store a single tween instance
 // Split the title into individual letters
 // -----------------------------------------------------------------------------
 let split;
+
+// -----------------------------------------------------------------------------
+// Storing the resize listener reference
+// -----------------------------------------------------------------------------
+let debouncedResizeHandler = null;
 
 // Wait for fonts to load before doing anything with SplitText
 async function ensureSplitTextReady() {
@@ -149,6 +175,15 @@ async function animateCurtainReveal() {
         scaleY: 0,
         ease: "expo.inOut",
         onComplete: () => {
+            //  Cancel any pending debounced calls
+            if(debouncedResizeHandler?.cancel) {
+                debouncedResizeHandler.cancel();
+            }
+            //  Remove the resize listener
+            window.removeEventListener('resize', debouncedResizeHandler);
+            debouncedResizeHandler = null;
+
+            // DOM cleanup
             document.querySelector('.reveal').remove();
             document.querySelector('.loader').remove();
         }
@@ -175,6 +210,9 @@ function updateBar(getProgress) {
     if (!progressTween) {
         createProgressTween();
     }
+
+    debouncedResizeHandler = debounce(setSeam, 100);
+    window.addEventListener('resize', debouncedResizeHandler);
 
     const trackProgress = setInterval(() => {
         const currentProgress = getProgress();
