@@ -77,8 +77,16 @@ function shouldReduceMotion() {
 // -----------------------------------------------------------------------------
 function instantReveal() {
     // Set final states immediately
-    document.querySelector('.reveal').remove();
-    document.querySelector('.loader').remove();
+    const loaderEl = document.querySelector('.loader');
+    if (loaderEl) {
+        loaderEl.setAttribute('aria-hidden', 'true');
+        loaderEl.inert = true;
+        loaderEl.remove();
+    }
+   const revealEl = document.querySelector('.reveal');
+   if(revealEl) {
+    revealEl.remove();
+   }
     document.body.classList.remove('is-loading');
     gsap.set('header', { 
         visibility: 'visible',
@@ -166,6 +174,11 @@ async function animateCurtainReveal() {
     tl.set('.loader', { 
         display: 'none',
         onComplete: () => {
+            const loaderEl = document.querySelector('.loader');
+            if (loaderEl) {
+                loaderEl.setAttribute('aria-hidden', 'true');
+                loaderEl.inert = true;
+            }
             document.body.classList.remove('is-loading');
         }
     });
