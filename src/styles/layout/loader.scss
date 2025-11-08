@@ -87,19 +87,21 @@ body.is-loading {
 }
 
 .reveal-top {
-    top: 0;
-  height: var(--seamY);
+  top: 0;
+  height: calc(var(--seamY) + 1px);
   transform-origin: bottom; 
-  transform: scaleY(0); 
-  will-change: transform 
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translateZ(0) scaleY(0);
 }
 
 .reveal-bottom {
-     top: var(--seamY);
-  height: calc(100dvh - var(--seamY));
+     top: calc(var(--seamY) - 1px);
+  height: calc(100dvh - var(--seamY) + 1px);
   transform-origin: top;
-  transform: scaleY(0);
-  will-change: transform
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translateZ(0) scaleY(0);
 }
 
 .reveal-title {
