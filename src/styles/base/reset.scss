@@ -9,3 +9,17 @@
 html {
   font-size: 62.5%; /* 1rem = 10px */
 }
+
+@media (max-width: 900px) {
+  html {
+    font-size: 50%;
+  }
+}
+
+@media (max-width: 500px) {
+  html { font-size: 40%; }
+}
+
+@media (max-width: 400px) {
+  html { font-size: 35%; }
+}
