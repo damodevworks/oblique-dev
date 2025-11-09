@@ -121,12 +121,14 @@ async function animateCurtainReveal() {
 
   isRevealed = true; // Mark it as revealed
   tl.clear();
+
+  const viewW = () =>
+  (window.visualViewport?.width ?? document.documentElement.clientWidth);
     
     tl.to('.loading-bar-container', {
-        width: "100vw",  
+        width: '130dvw',
         duration: 1,
-        ease: "expo.inOut",
-        left: "0"  
+        ease: 'expo.inOut'
     });
 
     tl.to(['.reveal-top', '.reveal-bottom'], {  
@@ -180,6 +182,7 @@ async function animateCurtainReveal() {
                 loaderEl.inert = true;
             }
             document.body.classList.remove('is-loading');
+            document.documentElement.classList.remove('is-loading');
         }
     });
 
