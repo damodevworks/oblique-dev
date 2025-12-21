@@ -1,0 +1,25 @@
+.hero {
+    height: 80vh;
+    width: 100vw;
+    position: relative;
+    top: 20vh;
+}
+
+.hero-grid {
+    width: 80vw;
+    display: grid;
+    grid-template-columns: 1fr;
+    margin: 0 auto;
+}
+
+.hero-right {
+    display: grid;
+    justify-self: end;
+    width: 40vw;
+}
+
+.header-shape {
+    width: 100%;
+    height: auto;
+    display: block;
+}
