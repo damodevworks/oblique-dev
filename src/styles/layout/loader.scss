@@ -1,5 +1,14 @@
 @use '../utils/variables' as var;
 
+// IMPORTANT!!! - REMOVE AFTER DEVELOPMENT !! 
+.loader {
+    display: none !important; 
+}
+.reveal {
+    display: none !important; 
+}
+
+
 html.is-loading, body.is-loading { 
     overflow: hidden; 
 }

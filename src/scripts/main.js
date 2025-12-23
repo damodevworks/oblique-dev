@@ -7,4 +7,4 @@ import { bootLoader } from './utils/loader';
 document.documentElement.classList.add('styles-ready');
 
 // ***** LOADER ****** // 
-bootLoader();
+// bootLoader();
