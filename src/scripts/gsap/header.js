@@ -5,7 +5,7 @@ export function startHeaderWaves() {
   const feOffset = document.querySelector('.header-shape feOffset');
   if (feOffset) {
     gsap.to(feOffset, {
-        attr: { dx: 420 },
+        attr: { dx: 300 },
         duration: 20,
         repeat: -1,
         yoyo: true,
