@@ -104,12 +104,12 @@ html.is-loading, body.is-loading {
 }
 
 .reveal-bottom {
-     top: calc(var(--seamY) - 0.5px);
-  height: calc(100dvh - var(--seamY) + 0.5px);
-  transform-origin: top;
-  will-change: transform;
-  backface-visibility: hidden;
-  transform: translateZ(0) scaleY(0);
+    top: calc(var(--seamY) - 0.5px);
+    height: calc(100dvh - var(--seamY) + 0.5px);
+    transform-origin: top;
+    will-change: transform;
+    backface-visibility: hidden;
+    transform: translateZ(0) scaleY(0);
 }
 
 .reveal-title {
