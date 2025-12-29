@@ -1,0 +1,28 @@
+@use '../utils/variables' as var;
+
+
+.CTA-button {
+    display: inline-block;
+    appearance: none;
+    -webkit-appearance: none;
+    text-decoration: none;
+    border: none;
+    background: var.$colour-accent;
+    padding: 1.4rem 7rem;
+    border-radius: 50px;
+    font-family: var.$font-secondary;
+    color: var.$colour-white;
+    font-weight: 500;
+    font-size: 2rem;
+    letter-spacing: 1px;
+    text-align: center;
+    transition: transform 300ms ease, box-shadow 120ms ease, background-color 120ms ease;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+}
+
+.CTA-button:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(0,0,0,0.16); }
+.CTA-button:active { transform: translateY(0); }
+.CTA-button:focus { outline: none; box-shadow: 0 0 0 4px rgba(163,83,76,0.18); }
+
+/* If using anchor and supporting keyboard activation */
+.CTA-button[role="button"] { touch-action: manipulation; }

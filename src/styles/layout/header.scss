@@ -32,8 +32,8 @@
 
 .alpha-container {
     position: absolute;
-    top: 27%;
-    left: 0%;
+    top: 32%;
+    left: -5%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -44,7 +44,7 @@
 
 .alpha {
     text-align: center;
-    font-size: 5rem;
+    font-size: 4rem;
     font-weight: 400;
     color: var.$colour-white;
     letter-spacing: -1.92px;
@@ -55,11 +55,31 @@
 
 .alpha-p {
     text-align: center;
-    font-size: 2rem;
+    font-size: 1.7rem;
     font-weight: 300;
     width: 70%;
     font-family: var.$font-secondary;
     color: var.$colour-white;
+    -webkit-user-select: none;  /* Safari */
+    -ms-user-select: none;      /* IE 10 and IE 11 */
+    user-select: none;          /* Standard syntax */
+}
+.CTA-container {
+    position: absolute;
+    top: 70%;
+    right: 47%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4rem;
+}
+.echo-heading {
+    text-align: center;
+    font-size: 3.6rem;
+    font-weight: 400;
+    color: var.$colour-white;
+    letter-spacing: -1.92px;
     -webkit-user-select: none;  /* Safari */
     -ms-user-select: none;      /* IE 10 and IE 11 */
     user-select: none;          /* Standard syntax */
