@@ -1,6 +1,35 @@
+@use './variables' as var;
+
 // -- Media Queries
 @mixin mq($min) {
   @media (min-width: $min) { @content; }
 }
 // Size
 @mixin size($w, $h: $w) { width: $w; height: $h; }
+
+// Mixins
+@mixin user-select-none {
+    -webkit-user-select: none;  /* Safari */
+    -ms-user-select: none;      /* IE 10 and IE 11 */
+    user-select: none;          /* Standard syntax */
+}
+
+@mixin font-smoothing {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-synthesis: none;
+    text-shadow: none;
+}
+
+@mixin accent-font-base {
+    font-family: var.$font-accent;
+    font-weight: 100;
+    font-variation-settings: 'wght' 100;
+    @include font-smoothing;
+    @include user-select-none;
+}
+
+@mixin absolute-center {
+    position: absolute;
+    transform: translate(-50%, -50%);
+}
