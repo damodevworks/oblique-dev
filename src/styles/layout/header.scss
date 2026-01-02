@@ -1,9 +1,26 @@
 @use '../utils/variables' as var;
+@use '../utils/mixins' as *;
 
+
+.oblique-top-title {
+    position: relative;
+    width: 100%;
+    height: 49px; 
+    overflow: hidden; 
+    }
+
+.menu-shape {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+
+// Styles
 .hero {
     min-height: 80vh;
     width: 100vw;
-    padding-top: 20vh;
+    margin-top: 15vh;
 }
 
 .hero-grid {
@@ -31,9 +48,9 @@
 }
 
 .alpha-container {
-    position: absolute;
-    top: 32%;
-    left: -5%;
+    @include absolute-center;
+    top: 40%;
+    right: 30%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -48,9 +65,7 @@
     font-weight: 400;
     color: var.$colour-white;
     letter-spacing: -1.92px;
-    -webkit-user-select: none;  /* Safari */
-    -ms-user-select: none;      /* IE 10 and IE 11 */
-    user-select: none;          /* Standard syntax */
+    @include user-select-none;
 }
 
 .alpha-p {
@@ -60,27 +75,55 @@
     width: 70%;
     font-family: var.$font-secondary;
     color: var.$colour-white;
-    -webkit-user-select: none;  /* Safari */
-    -ms-user-select: none;      /* IE 10 and IE 11 */
-    user-select: none;          /* Standard syntax */
+    @include user-select-none;
 }
+
 .CTA-container {
-    position: absolute;
-    top: 70%;
-    right: 47%;
+    @include absolute-center;
+    top: 78%;
+    left: 30%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 4rem;
+    text-align: center;
 }
+
 .echo-heading {
     text-align: center;
     font-size: 3.6rem;
     font-weight: 400;
     color: var.$colour-white;
     letter-spacing: -1.92px;
-    -webkit-user-select: none;  /* Safari */
-    -ms-user-select: none;      /* IE 10 and IE 11 */
-    user-select: none;          /* Standard syntax */
+    @include user-select-none;
+}
+
+.noise-index {
+    @include absolute-center;
+    @include accent-font-base;
+    top: 50%;
+    left: 95%;
+    transform: translate(-50%, -50%) rotate(-90deg);
+    transform-origin: center center;
+    white-space: nowrap;
+    font-size: 3rem;
+    color: var.$colour-white;
+}
+
+.pathway {
+    @include accent-font-base;
+    position: absolute;
+    bottom: 3%;
+    right: 10%;
+    white-space: nowrap;
+    font-size: 2.8rem;
+}
+
+.oblique-hero {
+    @include absolute-center;
+    @include user-select-none;
+    top: 6%;
+    left: 50%;
+    font-size: 8rem;
 }
