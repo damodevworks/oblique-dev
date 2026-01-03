@@ -8,10 +8,15 @@
     display: none !important; 
 }
 
+// IMPORTANT!!! - REMOVE COMMENT AFTER DEVELOPMENT !! 
+// body.is-loading header {
+//     visibility: hidden;
+// }
 
 html.is-loading, body.is-loading { 
     overflow: hidden; 
 }
+
 .loader {
     height: 100vh;
     width: 100%;
