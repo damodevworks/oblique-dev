@@ -26,7 +26,7 @@
 .hero-grid {
     width: 80vw;
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 2fr;
     margin: 0 auto;
 }
 
@@ -127,3 +127,37 @@
     left: 50%;
     font-size: 8rem;
 }
+
+.location {
+    @include accent-font-base;
+    position: absolute;
+    bottom: 4%;
+    left: 2%;
+    white-space: nowrap;
+    font-size: 3.2rem;
+}
+.image {
+    position: relative;
+    right: 15%;
+    bottom: 10%;
+    width: 20vw;
+    height: 100%;
+    background-image: url('../../../assets/fracture1.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 2rem;
+}
+.fracture {
+    @include accent-font-base;
+    position: absolute;
+    transform: translate(-50%, -50%) rotate(-90deg);
+    top: 50%;
+    left: -15%;
+    white-space: nowrap;
+    font-size: 7rem;
+    font-family: var.$font-secondary;
+    font-weight: 400;
+    opacity: 50%;
+}
+
