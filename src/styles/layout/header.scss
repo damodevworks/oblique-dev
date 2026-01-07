@@ -2,6 +2,9 @@
 @use '../utils/mixins' as *;
 
 
+.hero-right--mobile {display: none;}
+.hero-left--mobile {display: none;}
+
 .oblique-top-title {
     position: relative;
     width: 100%;
@@ -30,7 +33,7 @@
     margin: 0 auto;
 }
 
-.hero-right {
+.hero-right--desktop {
     position: relative;
     display: grid;
     justify-self: end;
@@ -163,6 +166,21 @@
 
 
 /**
+* Mobile & Portrait
+**/ 
+
+.hero-right--mobile {
+    width: min(92vw, 520px);
+    height: 100%;
+    margin: 0 auto; /* centrowanie gdy złapie max-width */
+}
+.header-shape--mobile {
+    width: 100%;
+    height: 100%;
+}
+
+
+/**
  * Base media queries for the hero element
  * 
  * Handles responsive scaling that is proportional to the screen size.
@@ -170,8 +188,26 @@
  * different viewport widths on desktop while maintaining visual hierarchy and readability.
  */ 
  
-@media (max-width: 1800px) { .hero-right { width: 46vw; } }
-@media (max-width: 1600px) { .hero-right { width: 52vw; } }
-@media (max-width: 1440px) { .hero-right { width: 55vw; } }
+@media (max-width: 1800px) { .hero-right--desktop { width: 46vw; } }
+@media (max-width: 1600px) { .hero-right--desktop { width: 52vw; } }
+@media (max-width: 1440px) { .hero-right--desktop { width: 55vw; } }
 @media (max-height: 1040px) {.oblique-hero {top: 7%;} }
 @media (max-height: 865px) {.oblique-hero {top: 8%;} }
+
+
+/**
+ * Base media queries for the portrait version of the website
+ */ 
+ 
+ @media (orientation: portrait), (max-aspect-ratio: 4/3) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+    width: 100%;
+    justify-items: center;
+    align-items: center;
+  }
+  .hero {margin-top: 10vh}
+  .hero-right--desktop {display: none;}
+  .hero-left--desktop {display: none;}
+  .hero-right--mobile {display: block;}
+}
