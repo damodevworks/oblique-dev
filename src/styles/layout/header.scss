@@ -50,7 +50,7 @@
 .alpha-container {
     @include absolute-center;
     top: 40%;
-    right: 30%;
+    right: 28%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -61,7 +61,7 @@
 
 .alpha {
     text-align: center;
-    font-size: 4rem;
+    font-size: clamp(2.4rem, 1.8vw, 4rem);
     font-weight: 400;
     color: var.$colour-white;
     letter-spacing: -1.92px;
@@ -70,7 +70,7 @@
 
 .alpha-p {
     text-align: center;
-    font-size: 1.7rem;
+    font-size: clamp(1.2rem, 0.9vw, 1.7rem);
     font-weight: 300;
     width: 70%;
     font-family: var.$font-secondary;
@@ -92,7 +92,7 @@
 
 .echo-heading {
     text-align: center;
-    font-size: 3.6rem;
+    font-size: clamp(2.2rem, 1.6vw, 3.6rem);
     font-weight: 400;
     color: var.$colour-white;
     letter-spacing: -1.92px;
@@ -107,7 +107,7 @@
     transform: translate(-50%, -50%) rotate(-90deg);
     transform-origin: center center;
     white-space: nowrap;
-    font-size: 3rem;
+    font-size: clamp(1.8rem, 1.2vw, 3rem);
     color: var.$colour-white;
 }
 
@@ -117,7 +117,7 @@
     bottom: 3%;
     right: 10%;
     white-space: nowrap;
-    font-size: 2.8rem;
+    font-size: clamp(1.6rem, 1.1vw, 2.8rem);
 }
 
 .oblique-hero {
@@ -134,7 +134,7 @@
     bottom: 4%;
     left: 2%;
     white-space: nowrap;
-    font-size: 3.2rem;
+    font-size: clamp(2rem, 1.2vw, 3.2rem);
 }
 .image {
     position: relative;
@@ -155,9 +155,23 @@
     top: 50%;
     left: -15%;
     white-space: nowrap;
-    font-size: 7rem;
+    font-size: clamp (5rem, 4vw, 7rem);
     font-family: var.$font-secondary;
     font-weight: 400;
     opacity: 50%;
 }
 
+
+/**
+ * Base media queries for the hero element
+ * 
+ * Handles responsive scaling that is proportional to the screen size.
+ * These breakpoints ensure the hero component adapts smoothly across
+ * different viewport widths on desktop while maintaining visual hierarchy and readability.
+ */ 
+ 
+@media (max-width: 1800px) { .hero-right { width: 46vw; } }
+@media (max-width: 1600px) { .hero-right { width: 52vw; } }
+@media (max-width: 1440px) { .hero-right { width: 55vw; } }
+@media (max-height: 1040px) {.oblique-hero {top: 7%;} }
+@media (max-height: 865px) {.oblique-hero {top: 8%;} }
