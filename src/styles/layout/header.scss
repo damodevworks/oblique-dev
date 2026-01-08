@@ -116,9 +116,7 @@
 
 .pathway {
     @include accent-font-base;
-    position: absolute;
-    bottom: 3%;
-    right: 10%;
+    position: static;
     white-space: nowrap;
     font-size: clamp(1.6rem, 1.1vw, 2.8rem);
 }
@@ -130,12 +128,18 @@
     left: 50%;
     font-size: 8rem;
 }
-
+.hero-meta{
+  width: 80vw;
+  margin: 1rem auto 1rem;   
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  align-items: flex-end;
+}
 .location {
     @include accent-font-base;
-    position: absolute;
-    bottom: 4%;
-    left: 2%;
+    position: relative;
+    left: -6%; 
     white-space: nowrap;
     font-size: clamp(2rem, 1.2vw, 3.2rem);
 }
@@ -170,13 +174,15 @@
 **/ 
 
 .hero-right--mobile {
-    width: min(92vw, 520px);
-    height: 100%;
-    margin: 0 auto; /* centrowanie gdy złapie max-width */
+    width: min(92vw, 700px);
+    height: auto;
+    max-height: 80vh;
+    margin: 0 auto; 
 }
 .header-shape--mobile {
     width: 100%;
-    height: 100%;
+    height: auto;
+    max-height: 80vh;
 }
 
 
@@ -199,7 +205,7 @@
  * Base media queries for the portrait version of the website
  */ 
  
- @media (orientation: portrait), (max-aspect-ratio: 4/3) {
+ @media (orientation: portrait), (max-aspect-ratio: 1/1) {
   .hero-grid {
     grid-template-columns: 1fr;
     width: 100%;
@@ -210,4 +216,9 @@
   .hero-right--desktop {display: none;}
   .hero-left--desktop {display: none;}
   .hero-right--mobile {display: block;}
+}
+
+@media (min-width: 1300px) and (max-height: 850px) {
+.hero { margin-top: 7vh;}
+.hero-grid {transform: scale(0.9); transform-origin: center; width: 85%;;}            
 }
