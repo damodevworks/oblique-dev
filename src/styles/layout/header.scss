@@ -73,7 +73,6 @@ position: relative;
 
 .alpha {
     text-align: center;
-    font-size: clamp(2.4rem, 1.8vw, 4rem);
     font-weight: 400;
     color: var.$colour-white;
     letter-spacing: -1.92px;
@@ -82,7 +81,6 @@ position: relative;
 
 .alpha-p {
     text-align: center;
-    font-size: clamp(1.2rem, 0.9vw, 1.7rem);
     font-weight: 300;
     width: 70%;
     font-family: var.$font-secondary;
@@ -90,25 +88,65 @@ position: relative;
     @include user-select-none;
 }
 
+.alpha-desktop {
+    font-size: clamp(2.4rem, 1.8vw, 4rem);
+}
+
+.alpha-p-desktop {
+    font-size: clamp(1.2rem, 0.9vw, 1.7rem);
+}
+
+.alpha-mobile {
+    font-size: clamp(2.8rem, 6vw, 3.6rem);
+}
+
+.alpha-p-mobile {
+    font-size: clamp(2rem, 3.8vw, 2rem);
+}
+
+.sec-07 {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    font-size: 35rem;
+    transform: translate(-50%, -50%);
+    font-family: var.$font-accent;
+    opacity: 0.1;
+    color: var.$colour-accent;
+}
+
 .CTA-container {
     @include absolute-center;
-    top: 78%;
-    left: 30%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 4rem;
+    gap: 3rem;
     text-align: center;
+}
+.CTA-container-desktop {
+    top: 78%;
+    left: 30%;
+}
+
+.CTA-container-mobile {
+    top: 83%;
+    left: 50%;
+    transform: translate(calc(-50% - 30px), -50%)
 }
 
 .echo-heading {
     text-align: center;
-    font-size: clamp(2.2rem, 1.6vw, 3.6rem);
     font-weight: 400;
     color: var.$colour-white;
     letter-spacing: -1.92px;
     @include user-select-none;
+}
+.echo-heading-desktop {
+    font-size: clamp(2.2rem, 1.6vw, 3.6rem);
+}
+.echo-heading-mobile {
+    font-size: clamp(3.4rem, 8vw, 3.8rem);
 }
 
 .noise-index {
@@ -183,7 +221,8 @@ position: relative;
 **/ 
 
 .hero-right--mobile {
-    width: min(92vw, 700px);
+    position: relative;
+    width: 95vw;
     height: auto;
     max-height: 80vh;
     margin: 0 auto; 
@@ -226,6 +265,14 @@ position: relative;
   .hero-left--desktop {display: none;}
   .hero-right--mobile {display: block;}
   .oblique-hero {top: 6%;}
+  
+  .alpha-container {
+    right: auto;
+    left: 50%;
+    top: 50%;
+    transform: translate(calc(-50% - 40px), -50%);
+    width: 60%;
+  }
 }
 
 @media (min-aspect-ratio: 12/10) and (max-aspect-ratio: 14/10) {
