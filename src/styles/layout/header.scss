@@ -260,10 +260,15 @@ position: relative;
     justify-items: center;
     align-items: center;
   }
-  .hero {margin-top: 10vh}
+  .hero {
+    margin-top: 10vh;
+  }
   .hero-right--desktop {display: none;}
   .hero-left--desktop {display: none;}
-  .hero-right--mobile {display: block;}
+  .hero-right--mobile {
+    display: block;
+    position: relative;
+  }
   .oblique-hero {top: 6%;}
   
   .alpha-container {
@@ -273,9 +278,30 @@ position: relative;
     transform: translate(calc(-50% - 40px), -50%);
     width: 60%;
   }
+
+  .hero-meta {
+    justify-content: center;
+    position: static;
+  }
+
+  .location {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-140%);
+    color: var.$colour-white;
+    font-size: clamp(2rem, 4vw, 3rem);
+  }
+
+  .pathway {
+    position: static;
+    text-align: center;
+    padding-top: 10px;
+    font-size: clamp(2rem, 4vw, 3rem);
+  }
 }
 
-@media (min-aspect-ratio: 12/10) and (max-aspect-ratio: 14/10) {
+@media (min-aspect-ratio: 12/10) and (max-aspect-ratio: 14/10) and (min-width: 1300px) {
     .hero {margin-top: 20vh;}
 }
 
@@ -313,5 +339,146 @@ position: relative;
     .oblique-top-title-desktop { display: none; }
 }
 
+/**
+ * Adjustment for wider portrait mobile devices (near-square screens)
+ * Targets aspect ratios like 540:720 (0.75) where text appears too large
+ * Extended to 17/20 (0.85) to cover edge cases like 581-616x725
+ * Excludes larger tablets like 1024x1366 by limiting max-width
+ */
+@media (orientation: portrait) and (min-aspect-ratio: 7/10) and (max-aspect-ratio: 17/20) and (max-width: 599px) {
+  .alpha-mobile {
+    font-size: clamp(2rem, 4vw, 2.5rem) !important;
+  }
+  .alpha-p-mobile {
+    font-size: clamp(1.3rem, 2.5vw, 1.5rem) !important;
+  }
+  .echo-heading-mobile {
+    font-size: clamp(2rem, 4.5vw, 2.5rem) !important;
+  }
+  .sec-07 {
+    font-size: clamp(20rem, 38vw, 25rem);
+  }
+  .location {
+    font-size: clamp(1.7rem, 3vw, 2rem);
+  }
+  .pathway {
+    font-size: clamp(1.6rem, 3vw, 2.7rem);
+  }
+}
+
+
+
 @media (max-width: 500px) { .oblique-hero {top: 5%;} }
 
+/**
+ * Adjustment for narrow portrait mobile devices (typical phones)
+ * Targets aspect ratios like 430:932 (0.46) and 390:844 (0.462) where text can be larger
+ * Excludes smaller phones like iPhone SE (375x667) by setting min-width
+ */
+@media (orientation: portrait) and (min-aspect-ratio: 4/10) and (max-aspect-ratio: 7/10) and (min-width: 385px) and (max-width: 600px) {
+  .alpha-mobile {
+    font-size: clamp(3rem, 6.5vw, 3.8rem) !important;
+  }
+  .alpha-p-mobile {
+    font-size: clamp(1.8rem, 3.8vw, 2.1rem) !important;
+  }
+  .echo-heading-mobile {
+    font-size: clamp(3.6rem, 8.5vw, 4.2rem) !important;
+  }
+  .location {
+    font-size: clamp(2.8rem, 5.2vw, 3.4rem);
+    transform: translateX(-120%);
+  }
+  .sec-07 {
+    font-size: clamp(24rem, 42vw, 28rem);
+  }
+}
+
+/**
+ * Adjustment for wide portrait devices (near-landscape aspect ratios)
+ * Targets aspect ratios 0.6-1.2 (3/5 to 6/5) where text appears too large
+ * Cases: 879x752, 879x980, 1140x955, 901-1039x950, 403-999x832, 601-616x725, 622x778-1000
+ * Excludes narrow phones with min-width: 600px
+ */
+@media (orientation: portrait) and (min-aspect-ratio: 3/5) and (max-aspect-ratio: 6/5) and (min-width: 600px) {
+.alpha-mobile {
+    font-size: clamp(2.5rem, 3.5vw, 3.1rem) !important;
+}
+.alpha-p-mobile {
+    font-size: clamp(1.5rem, 2.1vw, 1.8rem) !important;
+    width: 50%;
+}
+.echo-heading-mobile {
+    font-size: clamp(2.7rem, 4vw, 3.1rem) !important;
+}
+.location {
+    font-size: clamp(2.5rem, 2.6vw, 2.8rem) !important;
+    transform: translate(-110%);
+}
+.pathway {
+    font-size: clamp(1.6rem, 2.1vw, 2rem) !important;
+}
+.sec-07 {
+    font-size: clamp(20rem, 31vw, 25rem) !important;
+}
+}
+
+
+/**
+ * Adjustment for near-square landscape devices (width slightly > height)
+ * Targets aspect ratios 1.0-1.2 (5/6 to 6/5) where text appears too large
+ * Cases: 845x844, 992x991, 990x825, 971-990x825, 1038-1244x1037
+ * Uses max-width: 1400px and max-height: 1200px to catch these edge cases
+ */
+@media (orientation: landscape) and (min-aspect-ratio: 5/6) and (max-aspect-ratio: 6/5) and (max-width: 1400px) and (max-height: 1200px) {
+  .alpha-mobile {
+    font-size: clamp(2.2rem, 3vw, 2.8rem) !important;
+  }
+  .alpha-p-mobile {
+    font-size: clamp(1.3rem, 1.8vw, 1.6rem) !important;
+    width: 40%;
+  }
+  .echo-heading-mobile {
+    font-size: clamp(2.4rem, 3.5vw, 2.8rem) !important;
+  }
+  .location {
+    font-size: clamp(1.6rem, 2.2vw, 2rem) !important;
+  }
+  .pathway {
+    font-size: clamp(1.4rem, 1.8vw, 1.8rem) !important;
+  }
+  .sec-07 {
+    font-size: clamp(18rem, 28vw, 23rem) !important;
+  }
+  .hero-right--mobile {
+    display: block;
+  }
+  .hero-right--desktop {
+    display: none;
+  }
+}
+
+/**
+ * Adjustment for small landscape devices (narrower screens)
+ * Targets cases like 647x584 where text needs to be slightly smaller
+ */
+@media (orientation: landscape) and (min-aspect-ratio: 1/1) and (max-aspect-ratio: 6/5) and (min-width: 600px) and (max-width: 800px) and (max-height: 700px) {
+  .alpha-mobile {
+    font-size: clamp(2rem, 2.8vw, 2.5rem) !important;
+  }
+  .alpha-p-mobile {
+    font-size: clamp(1.2rem, 1.6vw, 1.4rem) !important;
+  }
+  .echo-heading-mobile {
+    font-size: clamp(2.2rem, 3.2vw, 2.6rem) !important;
+  }
+  .location {
+    font-size: clamp(1.5rem, 2vw, 1.8rem) !important;
+  }
+  .pathway {
+    font-size: clamp(1.3rem, 1.6vw, 1.6rem) !important;
+  }
+  .sec-07 {
+    font-size: clamp(16rem, 26vw, 21rem) !important;
+  }
+}
