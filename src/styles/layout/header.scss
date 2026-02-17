@@ -267,6 +267,14 @@ position: relative;
   }
 }
 
+.svg-location-text {
+  font-size: clamp(var(--location-size-min), var(--location-size-fluid), var(--location-size-max));
+  fill: var.$colour-white;
+  font-family: var.$font-accent;
+  font-weight: 400;
+  letter-spacing: -0.5;
+}
+
 
 /**
  * Base media queries for the hero element
@@ -344,12 +352,7 @@ position: relative;
   }
 
   .location {
-    position: absolute;
-    top: 20%;
-    left: 51%;
-    transform: translateX(var(--location-x));
-    color: var.$colour-white;
-    font-size: clamp(var(--location-size-min), var(--location-size-fluid), var(--location-size-max));
+    display: none;
   }
 
   .pathway {
