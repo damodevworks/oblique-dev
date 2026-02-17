@@ -238,6 +238,14 @@ position: relative;
     max-height: 80vh;
 }
 
+.hero-left--mobile {
+  position: relative;
+    width: 95vw;
+    height: auto;
+    height: 100vh;
+    margin: 0 auto; 
+}
+
 /**
  * Mobile-only selectors using CSS custom properties
  * Variables are defined in .hero within media queries
@@ -329,12 +337,33 @@ position: relative;
     justify-items: center;
     align-items: center;
   }
+  .hero-left--mobile {
+    display: block;
+    order: 2; /* Appears second (below hero-right) */
+  }
+
+.image {
+  width: 80vw; 
+  height: 80vh;
+  left: 50%; 
+  top: 50%;
+  transform: translate(-45%, -40%);
+  position: absolute;
+}
+
+.fracture {
+  left: 50%; 
+  top: 0%;
+  transform: translate(-50%, -120%);
+  font-size: clamp(3rem, 8vw, 6rem);
+}
 
   .hero-right--desktop {display: none;}
   .hero-left--desktop {display: none;}
   .hero-right--mobile {
     display: block;
     position: relative;
+    order: 1; /* Appears first (above hero-left) */
   }
   .oblique-hero {top: 6%;}
   
