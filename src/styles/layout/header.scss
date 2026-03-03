@@ -358,6 +358,23 @@ position: relative;
   font-size: clamp(3rem, 8vw, 6rem);
 }
 
+.fracture-mobile {
+  opacity: 1;
+  font-weight: 100;
+}
+.area-code {
+  font-family: var.$font-accent;
+  position: absolute;
+  right: 100%;
+  top: 50%;
+  transform: translate(20%, -50%) rotate(-90deg);
+  font-weight: 100;
+
+  span {
+    color: var.$colour-accent;
+  }
+}
+
   .hero-right--desktop {display: none;}
   .hero-left--desktop {display: none;}
   .hero-right--mobile {
