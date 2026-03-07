@@ -195,7 +195,7 @@ position: relative;
     white-space: nowrap;
     font-size: clamp(2rem, 1.2vw, 3.2rem);
 }
-.image {
+.image-fracture {
     position: relative;
     right: 15%;
     bottom: 10%;
@@ -239,12 +239,29 @@ position: relative;
 }
 
 .hero-left--mobile {
-  position: relative;
+    position: relative;
     width: 95vw;
     height: auto;
     height: 100vh;
     margin: 0 auto; 
 }
+
+.icons {
+  margin: 25px auto 0;
+    pointer-events: none;
+    width: 60vw;
+    justify-content: space-between;
+
+    .fracture-icon {
+      width: 59px;
+      height: 59px;
+    }
+
+    .fracture-icon-rotate {
+      transform: rotate(180deg);
+    }
+}
+
 
 /**
  * Mobile-only selectors using CSS custom properties
@@ -342,7 +359,7 @@ position: relative;
     order: 2; /* Appears second (below hero-right) */
   }
 
-.image {
+.image-fracture {
   width: 80vw; 
   height: 80vh;
   left: 50%; 
@@ -432,7 +449,8 @@ position: relative;
 
 .oblique-top-title-fullHD,
 .oblique-top-title-desktop,
-.oblique-top-title-mobile {
+.oblique-top-title-mobile,
+.icons {
     display: none;
 }
 
@@ -452,6 +470,8 @@ position: relative;
     .oblique-top-title-mobile { display: block; }
     .oblique-top-title-fullHD,
     .oblique-top-title-desktop { display: none; }
+    .icons {display: flex;}
+    .pathway {margin-top: 50px;}
 }
 
 /**
