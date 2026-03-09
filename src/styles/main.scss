@@ -6,6 +6,7 @@
 @use 'base/reset';
 @use 'base/typography';
 
+
 // layout
 @use 'layout/loader';
 @use 'media-queries/media-loader';
@@ -13,3 +14,4 @@
 
 // components
 @use 'components/buttons';
+@use 'components/cursor.scss';
