@@ -1,0 +1,52 @@
+
+@use '../utils/variables' as var;
+@media (hover: hover) and (pointer: fine) {
+  body,
+  a,
+  button {
+    cursor: none;
+  }
+}
+
+
+.cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 40px;
+  height: 40px;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+}
+
+.cursor-core,
+.cursor-ring,
+.cursor-distort {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+}
+
+.cursor-core {
+  width: 6px;
+  height: 6px;
+  background: var.$colour-black;
+}
+
+.cursor-ring {
+  width: 28px;
+  height: 28px;
+  border: 1px solid var.$colour-black;
+  opacity: 0.8;
+}
+
+/* distortion / halo */
+.cursor-distort {
+  width: 36px;
+  height: 36px;
+  background: rgba(15, 10, 10, 0.15);
+  filter: blur(8px);
+}
