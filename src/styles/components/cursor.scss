@@ -39,14 +39,15 @@
 .cursor-ring {
   width: 28px;
   height: 28px;
-  border: 1px solid var.$colour-black;
-  opacity: 0.8;
+  border: 1px solid var.$colour-accent;
+  opacity: 0.9;
+  box-shadow: 0 0 0 1px rgba(237, 242, 244, 0.18);
 }
 
 /* distortion / halo */
 .cursor-distort {
   width: 36px;
   height: 36px;
-  background: rgba(15, 10, 10, 0.15);
-  filter: blur(8px);
+  background: rgba(223, 188, 33, 0.12);
+  filter: blur(10px);
 }
