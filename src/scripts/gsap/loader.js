@@ -122,10 +122,10 @@ async function animateCurtainReveal() {
   isRevealed = true; // Mark it as revealed
   tl.clear();
 
-  const viewW = () =>
-  (window.visualViewport?.width ?? document.documentElement.clientWidth);
-    
-    tl.to('.loading-bar-container', {
+  // Hide hero-grid immediately so it doesn't flash before the entrance animation
+  gsap.set('.hero-grid', { opacity: 0 });
+
+  tl.to('.loading-bar-container', {
         width: '130dvw',
         duration: 1,
         ease: 'expo.inOut'
@@ -202,8 +202,22 @@ async function animateCurtainReveal() {
             // DOM cleanup
             document.querySelector('.reveal').remove();
             document.querySelector('.loader').remove();
+
+            // Inform other modules that the loader has fully finished
+            document.dispatchEvent(new CustomEvent('loader:complete'));
         }
     });
+
+    // Header entrance: slides in from y:20 as the curtain folds away.
+    tl.fromTo('.hero-grid', {
+        y: 20,
+        opacity: 0
+    },{
+        y: 0,
+        opacity: 1,
+        duration: 1,
+        ease: "expo.inOut"
+    }, '-=0.3');
 }
 
 // -----------------------------------------------------------------------------

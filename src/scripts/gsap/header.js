@@ -255,7 +255,15 @@ function updateHeaderImageDrift() {
 
 // Initialize header wave animations
 export function initHeaderAnimations() {
-  updateHeaderWaveDistortion();
-  updateHeaderImageDrift();
   setupResizeHandler();
+
+  if (document.body.classList.contains('is-loading')) {
+    document.addEventListener('loader:complete', () => {
+      updateHeaderWaveDistortion();
+      updateHeaderImageDrift();
+    }, { once: true });
+  } else {
+    updateHeaderWaveDistortion();
+    updateHeaderImageDrift();
+  }
 }

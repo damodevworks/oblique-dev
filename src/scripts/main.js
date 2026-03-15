@@ -9,8 +9,18 @@ import { initCustomCursor } from './gsap/cursor.js';
 document.documentElement.classList.add('styles-ready');
 initCustomCursor();
 
-// ***** LOADER ****** // 
-// bootLoader();
+// ***** LOADER ****** //
+// false = dev mode - without loader
+const USE_LOADER = false;
+
+if (USE_LOADER) {
+  bootLoader();
+} else {
+  document.body.classList.remove('is-loading');
+  document.documentElement.classList.remove('is-loading');
+  document.querySelector('.loader')?.remove();
+  document.querySelector('.reveal')?.remove();
+}
 
 // Header Hero Animation
 initHeaderAnimations();

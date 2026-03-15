@@ -1,21 +1,13 @@
 @use '../utils/variables' as var;
 
-// IMPORTANT!!! - REMOVE AFTER DEVELOPMENT !! 
-.loader {
-    display: none !important; 
-}
-.reveal {
-    display: none !important; 
+
+body.is-loading header {
+    visibility: hidden;
 }
 
-// IMPORTANT!!! - REMOVE COMMENT AFTER DEVELOPMENT !! 
-// body.is-loading header {
-//     visibility: hidden;
-// }
-
-// html.is-loading, body.is-loading { 
-//     overflow: hidden; 
-// }
+html.is-loading, body.is-loading { 
+    overflow: hidden; 
+}
 
 .loader {
     height: 100vh;
