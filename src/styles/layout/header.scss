@@ -263,10 +263,7 @@ position: relative;
 }
 
 
-/**
- * Mobile-only selectors using CSS custom properties
- * Variables are defined in .hero within media queries
- */
+// mobile-only — vars set per breakpoint
 .alpha-mobile {
   font-size: clamp(var(--alpha-size-min), var(--alpha-size-fluid), var(--alpha-size-max));
 }
@@ -301,13 +298,7 @@ position: relative;
 }
 
 
-/**
- * Base media queries for the hero element
- * 
- * Handles responsive scaling that is proportional to the screen size.
- * These breakpoints ensure the hero component adapts smoothly across
- * different viewport widths on desktop while maintaining visual hierarchy and readability.
- */ 
+// desktop breakpoints
  
 @media (max-width: 1800px) { .hero-right--desktop { width: 46vw; } }
 @media (max-width: 1600px) { .hero-right--desktop { width: 52vw; } }
@@ -316,10 +307,7 @@ position: relative;
 @media (max-height: 865px) {.oblique-hero {top: 8%;} }
 
 
-/**
- * Base media queries for the portrait version of the website
- * Uses CSS custom properties for responsive scaling
- */ 
+// portrait & mobile
  
  @media (orientation: portrait), (max-aspect-ratio: 1/1), (max-aspect-ratio: 12/10)  {
   .hero {
@@ -356,7 +344,7 @@ position: relative;
   }
   .hero-left--mobile {
     display: block;
-    order: 2; /* Appears second (below hero-right) */
+    order: 2;
   }
 
 .image-fracture {
@@ -397,7 +385,7 @@ position: relative;
   .hero-right--mobile {
     display: block;
     position: relative;
-    order: 1; /* Appears first (above hero-left) */
+    order: 1;
   }
   .oblique-hero {top: 6%;}
   
@@ -442,9 +430,7 @@ position: relative;
 .hero-grid {transform: scale(0.9); transform-origin: center; width: 85%;;}            
 }
 
-/**
- * Base media queries for the title SVG
- */ 
+// title SVG
 
 
 .oblique-top-title-fullHD,
@@ -474,13 +460,7 @@ position: relative;
     .pathway {margin-top: 50px;}
 }
 
-/**
- * Adjustment for wider portrait mobile devices (near-square screens)
- * Targets aspect ratios like 540:720 (0.75) where text appears too large
- * Extended to 17/20 (0.85) to cover edge cases like 581-616x725
- * Starts at 72/100 (0.72) to avoid overlap with narrow portrait devices
- * Excludes larger tablets like 1024x1366 by limiting max-width
- */
+// wider portrait phones (near-square)
 @media (orientation: portrait) and (min-aspect-ratio: 72/100) and (max-aspect-ratio: 17/20) and (max-width: 599px) {
   .hero {
     --alpha-size-min: 2rem;
@@ -511,11 +491,7 @@ position: relative;
 
 @media (max-width: 500px) { .oblique-hero {top: 5%;} }
 
-/**
- * Adjustment for near-square portrait devices with smaller width
- * Targets aspect ratios from 0.75 to 1.0 (square) where text appears too large
- * Catches devices like 562x562-750, 597x667, etc.
- */
+// small near-square portrait
 @media (orientation: portrait) and (min-aspect-ratio: 3/4) and (max-aspect-ratio: 1/1) and (max-width: 650px) and (max-height: 750px) {
   .hero {
     --alpha-size-min: 1.8rem;
@@ -542,11 +518,7 @@ position: relative;
   }
 }
 
-/**
- * Adjustment for narrow portrait mobile devices (typical phones)
- * Targets aspect ratios like 430:932 (0.46), 390:844 (0.462), iPhone SE (375x667)
- * Extended to 71/100 (0.71) to cover typical narrow phones
- */
+// narrow portrait phones
 @media (orientation: portrait) and (min-aspect-ratio: 4/10) and (max-aspect-ratio: 71/100) and (min-width: 375px) and (max-width: 599px) {
   .hero {
     --alpha-size-min: 3rem;
@@ -572,12 +544,7 @@ position: relative;
   }
 }
 
-/**
- * Adjustment for wide portrait devices (near-landscape aspect ratios)
- * Targets aspect ratios 0.6-1.2 (3/5 to 6/5) where text appears too large
- * Cases: 879x752, 879x980, 1140x955, 901-1039x950, 403-999x832, 601-616x725, 622x778-1000
- * Excludes narrow phones with min-width: 600px
- */
+// wide portrait / near-landscape tablets
 @media (orientation: portrait) and (min-aspect-ratio: 3/5) and (max-aspect-ratio: 6/5) and (min-width: 600px) {
   .hero {
     --alpha-size-min: 2.5rem;
@@ -607,12 +574,7 @@ position: relative;
 }
 
 
-/**
- * Adjustment for near-square landscape devices (width slightly > height)
- * Targets aspect ratios 1.0-1.2 (5/6 to 6/5) where text appears too large
- * Cases: 845x844, 992x991, 990x825, 971-990x825, 1038-1244x1037
- * Uses max-width: 1400px and max-height: 1200px to catch these edge cases
- */
+// near-square landscape
 @media (orientation: landscape) and (min-aspect-ratio: 5/6) and (max-aspect-ratio: 6/5) and (max-width: 1400px) and (max-height: 1200px) {
   .hero {
     --alpha-size-min: 2.2rem;
@@ -643,10 +605,7 @@ position: relative;
   }
 }
 
-/**
- * Adjustment for small landscape devices (narrower screens)
- * Targets cases like 647x584 where text needs to be slightly smaller
- */
+// small landscape
 @media (orientation: landscape) and (min-aspect-ratio: 1/1) and (max-aspect-ratio: 6/5) and (min-width: 600px) and (max-width: 800px) and (max-height: 700px) {
   .hero {
     --alpha-size-min: 2rem;
@@ -667,6 +626,34 @@ position: relative;
   }
   .sec-07 {
     font-size: clamp(16rem, 26vw, 21rem);
+  }
+}
+
+// landscape phones — short & wide
+@media (orientation: landscape) and (max-width: 1299px) and (max-height: 700px) and (min-aspect-ratio: 6/5) {
+  .hero {
+    margin-top: 18vh;
+  }
+
+  .hero-right--desktop {
+    width: 46vw;
+  }
+
+  // vh-based font-size keeps top% and size in sync across short viewports
+  .oblique-hero {
+    top: 12%;
+    font-size: clamp(3.5rem, 15vh, 7rem);
+  }
+
+  // scaled down to match the 46vw box
+  .alpha-desktop {
+    font-size: clamp(2rem, 1.5vw, 3.3rem);
+  }
+  .alpha-p-desktop {
+    font-size: clamp(1rem, 0.75vw, 1.4rem);
+  }
+  .echo-heading-desktop {
+    font-size: clamp(1.8rem, 1.3vw, 3rem);
   }
 }
 

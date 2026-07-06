@@ -39,12 +39,7 @@
 .CTA-button:active { transform: translateY(0); }
 .CTA-button:focus-visible { outline: none; box-shadow: 0 0 0 4px rgba(163,83,76,0.18); }
 
-/**
- * Adjustment for wider portrait mobile devices (near-square screens)
- * Targets aspect ratios like 540:720 (0.75) where button appears too large
- * Extended to 17/20 (0.85) to cover edge cases
- * Excludes larger tablets like 1024x1366 by limiting max-width
- */
+// wider portrait phones (near-square)
 @media (orientation: portrait) and (min-aspect-ratio: 7/10) and (max-aspect-ratio: 17/20) and (max-width: 599px) {
   .CTA-button-mobile {
     padding-block: clamp(1rem, 1.2vw, 1.3rem);
@@ -53,11 +48,7 @@
   }
 }
 
-/**
- * Adjustment for narrow portrait mobile devices (typical phones)
- * Targets aspect ratios like 430:932 (0.46) and 390:844 (0.462) and iPhone SE (375x667)
- * Larger button for narrow phones
- */
+// narrow portrait phones
 @media (orientation: portrait) and (min-aspect-ratio: 4/10) and (max-aspect-ratio: 7/10) and (min-width: 375px) and (max-width: 600px) {
   .CTA-button-mobile {
     padding-block: clamp(1.4rem, 1.8vw, 1.8rem);
@@ -66,11 +57,7 @@
   }
 }
 
-/**
- * Adjustment for near-square portrait devices with smaller width
- * Targets aspect ratios from 0.75 to 1.0 (square) where button appears too large
- * Catches devices like 562x562-750, 597x667, etc.
- */
+// small near-square portrait
 @media (orientation: portrait) and (min-aspect-ratio: 3/4) and (max-aspect-ratio: 1/1) and (max-width: 650px) and (max-height: 750px) {
   .CTA-button-mobile {
     padding-block: clamp(0.9rem, 1.1vw, 1.2rem);
@@ -79,11 +66,7 @@
   }
 }
 
-/**
- * Adjustment for wide portrait devices (near-landscape aspect ratios)
- * Targets aspect ratios 0.6-1.2 (3/5 to 6/5) - tablets and wide portrait
- * Excludes narrow phones with min-width: 600px
- */
+// wide portrait / tablet
 @media (orientation: portrait) and (min-aspect-ratio: 3/5) and (max-aspect-ratio: 6/5) and (min-width: 600px) {
   .CTA-button-mobile {
     padding-block: clamp(1.1rem, 1.3vw, 1.4rem);
@@ -92,11 +75,7 @@
   }
 }
 
-/**
- * Adjustment for near-square landscape devices (width slightly > height)
- * Targets aspect ratios 1.0-1.2 (5/6 to 6/5)
- * Uses max-width: 1400px and max-height: 1200px
- */
+// near-square landscape
 @media (orientation: landscape) and (min-aspect-ratio: 5/6) and (max-aspect-ratio: 6/5) and (max-width: 1400px) and (max-height: 1200px) {
   .CTA-button-mobile {
     padding-block: clamp(0.8rem, 1vw, 1.1rem);
@@ -105,15 +84,21 @@
   }
 }
 
-/**
- * Adjustment for small landscape devices
- * Targets cases like 647x584 where button needs to be smaller
- */
+// small landscape
 @media (orientation: landscape) and (min-aspect-ratio: 1/1) and (max-aspect-ratio: 6/5) and (min-width: 600px) and (max-width: 800px) and (max-height: 700px) {
   .CTA-button-mobile {
     padding-block: clamp(0.7rem, 0.9vw, 1rem);
     padding-inline: clamp(3.3rem, 5vw, 3.7rem);
     font-size: clamp(0.8rem, 2.5vw, 1.2rem) !important;
+  }
+}
+
+// landscape phones — short & wide (matches 46vw hero shrink)
+@media (orientation: landscape) and (max-width: 1299px) and (max-height: 700px) and (min-aspect-ratio: 6/5) {
+  .CTA-button-desktop {
+    padding-block: clamp(0.85rem, 0.67vw, 1.2rem);
+    padding-inline: clamp(1.85rem, 3vw, 5.9rem);
+    font-size: 1.7rem !important;
   }
 }
 
