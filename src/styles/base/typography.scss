@@ -20,4 +20,20 @@ h1 {
 
  .gold {
         color: var.$colour-accent;
+        fill: var.$colour-accent;
+  }
+
+ .rust {
+        color: var.$colour-primary;
+        fill: var.$colour-primary;
+  }
+
+ .white {
+        color: var.$colour-white;
+        fill: var.$colour-white;
+  }
+
+ .black {
+        color: var.$colour-black;
+        fill: var.$colour-black;
   }

@@ -74,7 +74,6 @@ position: relative;
 .alpha {
     text-align: center;
     font-weight: 400;
-    color: var.$colour-white;
     letter-spacing: -1.92px;
     @include user-select-none;
 }
@@ -84,7 +83,6 @@ position: relative;
     font-weight: 300;
     width: 70%;
     font-family: var.$font-secondary;
-    color: var.$colour-white;
     @include user-select-none;
 }
 
@@ -112,7 +110,6 @@ position: relative;
     transform: translate(-50%, -50%);
     font-family: var.$font-accent;
     opacity: 0.1;
-    color: var.$colour-accent;
 }
 
 .CTA-container {
@@ -138,7 +135,6 @@ position: relative;
 .echo-heading {
     text-align: center;
     font-weight: 400;
-    color: var.$colour-white;
     letter-spacing: -1.92px;
     @include user-select-none;
 }
@@ -158,7 +154,6 @@ position: relative;
     transform-origin: center center;
     white-space: nowrap;
     font-size: clamp(1.8rem, 1.2vw, 3rem);
-    color: var.$colour-white;
     display: block;
 }
 
@@ -279,19 +274,13 @@ position: relative;
 
 .svg-noise-text {
   font-size: clamp(var(--svg-noise-size-min), var(--svg-noise-size-fluid), var(--svg-noise-size-max));
-  fill: var.$colour-white;
   font-family: var.$font-accent;
   font-weight: 400;
   letter-spacing: -1.2;
-  
-  tspan {
-    fill: var.$colour-accent;
-  }
 }
 
 .svg-location-text {
   font-size: clamp(var(--location-size-min), var(--location-size-fluid), var(--location-size-max));
-  fill: var.$colour-white;
   font-family: var.$font-accent;
   font-weight: 400;
   letter-spacing: -0.5;
@@ -374,10 +363,6 @@ position: relative;
   top: 50%;
   transform: translate(20%, -50%) rotate(-90deg);
   font-weight: 100;
-
-  span {
-    color: var.$colour-accent;
-  }
 }
 
   .hero-right--desktop {display: none;}

@@ -76,7 +76,6 @@
 .parallax-anomaly {
     @include absolute-center;
     @include accent-font-base;
-    color: var.$colour-white;
     white-space: nowrap;
 }
 
