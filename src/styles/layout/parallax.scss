@@ -1,0 +1,101 @@
+@use '../utils/variables' as var;
+@use '../utils/mixins' as *;
+
+// Phase 1: desktop static layout only.
+// No responsiveness, no GSAP/ScrollTrigger, no animation — see claude_work/parallax-save.md.
+
+.parallax {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    margin-top: 40vh;
+    overflow: hidden;
+    background-image: url('../../../assets/background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: var.$colour-black;
+}
+
+.parallax-lines {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+
+    line {
+        stroke: var.$colour-white;
+        stroke-width: 1;
+        opacity: 0.18;
+    }
+}
+
+.parallax-planet {
+    @include absolute-center;
+    @include user-select-none;
+    top: 49%;
+    left: 51%;
+    width: 36vw;
+    height: auto;
+    pointer-events: none;
+}
+
+.parallax-meteorite {
+    @include absolute-center;
+    @include user-select-none;
+    height: auto;
+    pointer-events: none;
+}
+
+.parallax-meteorite-1 {
+    top: 25.4%;
+    left: 31.8%;
+    width: 17.7vw;
+}
+
+.parallax-meteorite-2 {
+    top: 35.2%;
+    left: 85%;
+    width: 5.7vw;
+}
+
+.parallax-meteorite-3 {
+    top: 70.4%;
+    left: 13.5%;
+    width: 18.8vw;
+}
+
+.parallax-meteorite-4 {
+    top: 67.6%;
+    left: 67.7%;
+    width: 3vw;
+}
+
+.parallax-error,
+.parallax-index,
+.parallax-anomaly {
+    @include absolute-center;
+    @include accent-font-base;
+    color: var.$colour-white;
+    white-space: nowrap;
+}
+
+.parallax-error {
+    top: 5.1%;
+    left: 86.5%;
+    font-size: clamp(1.6rem, 1.3vw, 2.4rem);
+}
+
+.parallax-index {
+    top: 19.4%;
+    left: 8%;
+    font-size: clamp(1.6rem, 1.3vw, 2.4rem);
+}
+
+.parallax-anomaly {
+    top: 50%;
+    left: 98%;
+    transform: translate(-50%, -50%) rotate(-90deg);
+    transform-origin: center center;
+    font-size: clamp(1.6rem, 1.1vw, 2.2rem);
+}
