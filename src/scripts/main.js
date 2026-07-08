@@ -5,6 +5,7 @@ import { bootLoader } from './utils/loader';
 import { initHeaderAnimations } from './gsap/header.js';
 import { initCustomCursor } from './gsap/cursor.js';
 import { smoothInit } from './gsap/smooth-scroll.js';
+import { initParallaxPin, initParallaxAmbientLines, initParallaxDepthLayering } from './gsap/parallax.js';
 
 
 // Mark styles ready (FOUC prevention)
@@ -27,3 +28,6 @@ if (USE_LOADER) {
 // Header Hero Animation
 smoothInit();
 initHeaderAnimations();
+initParallaxPin();
+initParallaxAmbientLines();
+initParallaxDepthLayering();

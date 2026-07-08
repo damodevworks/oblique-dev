@@ -46,14 +46,30 @@
     transform: rotate(48deg);
 }
 
+.parallax-line--diagonal-2 {
+    top: -5%;
+    left: 45%;
+    width: 220vh;
+    transform: rotate(38deg);
+}
+
+// negative rotate + pivot below the section — sweeps up-right, crossing the others.
+.parallax-line--diagonal-3 {
+    top: 105%;
+    left: 5%;
+    width: 190vh;
+    transform: rotate(-55deg);
+}
+
 .parallax-planet {
-    @include absolute-center;
     @include user-select-none;
-    top: 49%;
-    left: 51%;
     width: 36vw;
+    position:absolute;
+    left:51%;
+    top:50%;
     height: auto;
     pointer-events: none;
+    z-index: 10;
 }
 
 .parallax-meteorite {
@@ -93,6 +109,7 @@
     @include absolute-center;
     @include accent-font-base;
     white-space: nowrap;
+    z-index: 20;
 }
 
 .parallax-error {
@@ -130,8 +147,18 @@
         transform: rotate(80deg);
     }
 
+    .parallax-line--diagonal-2 {
+        width: 160vh;
+        transform: rotate(70deg);
+    }
+
+    .parallax-line--diagonal-3 {
+        width: 155vh;
+        transform: rotate(-75deg);
+    }
+
     .parallax-planet {
-        top: 49%;
+        top: 50%;
         left: 50%;
         width: 75vw;
     }
