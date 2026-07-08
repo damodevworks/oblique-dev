@@ -171,7 +171,7 @@ position: relative;
 .oblique-hero {
     @include absolute-center;
     @include user-select-none;
-    top: 6%;
+    top: 6vh;
     left: 50%;
     font-size: clamp(7rem, 7vw, 9rem);
 }
@@ -292,8 +292,8 @@ position: relative;
 @media (max-width: 1800px) { .hero-right--desktop { width: 46vw; } }
 @media (max-width: 1600px) { .hero-right--desktop { width: 52vw; } }
 @media (max-width: 1440px) { .hero-right--desktop { width: 55vw; } }
-@media (max-height: 1040px) {.oblique-hero {top: 7%;} }
-@media (max-height: 865px) {.oblique-hero {top: 8%;} }
+@media (max-height: 1040px) {.oblique-hero {top: 7vh;} }
+@media (max-height: 865px) {.oblique-hero {top: 8vh;} }
 
 
 // portrait & mobile
@@ -372,7 +372,7 @@ position: relative;
     position: relative;
     order: 1;
   }
-  .oblique-hero {top: 6%;}
+  .oblique-hero {top: 6vh;}
   
   .alpha-container {
     right: auto;
@@ -474,7 +474,7 @@ position: relative;
 
 
 
-@media (max-width: 500px) { .oblique-hero {top: 5%;} }
+@media (max-width: 500px) { .oblique-hero {top: 5vh;} }
 
 // small near-square portrait
 @media (orientation: portrait) and (min-aspect-ratio: 3/4) and (max-aspect-ratio: 1/1) and (max-width: 650px) and (max-height: 750px) {
@@ -624,9 +624,9 @@ position: relative;
     width: 46vw;
   }
 
-  // vh-based font-size keeps top% and size in sync across short viewports
+  // vh-based top and font-size keep in sync across short viewports
   .oblique-hero {
-    top: 12%;
+    top: 12vh;
     font-size: clamp(3.5rem, 15vh, 7rem);
   }
 
