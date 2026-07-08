@@ -4,6 +4,8 @@ import { gsap } from 'gsap';
 import { bootLoader } from './utils/loader';
 import { initHeaderAnimations } from './gsap/header.js';
 import { initCustomCursor } from './gsap/cursor.js';
+import { smoothInit } from './gsap/smooth-scroll.js';
+
 
 // Mark styles ready (FOUC prevention)
 document.documentElement.classList.add('styles-ready');
@@ -23,4 +25,5 @@ if (USE_LOADER) {
 }
 
 // Header Hero Animation
+smoothInit();
 initHeaderAnimations();
