@@ -92,7 +92,26 @@ function buildLinesAmbientTimeline() {
     }, 0);
   });
 
+  // v1/v2 are desktop-only (hidden on mobile in parallax.scss) — don't bother tweening them there
+  if (!isMobileLineLayout()) {
+    ['.parallax-line--v1', '.parallax-line--v2'].forEach((selector) => {
+      tl.to(selector, {
+        x: randomSweep(35, 55) + 'vw',
+        duration: gsap.utils.random(3, 5),
+        delay: gsap.utils.random(0, 2),
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut'
+      }, 0);
+    });
+  }
+
   return tl;
+}
+
+// Mirrors the mobile media query in parallax.scss that hides .parallax-line--v1/--v2.
+function isMobileLineLayout() {
+  return window.matchMedia('(orientation: portrait), (max-aspect-ratio: 1/1), (max-aspect-ratio: 12/10)').matches;
 }
 
 export function initParallaxAmbientLines() {

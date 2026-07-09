@@ -61,6 +61,21 @@
     transform: rotate(-55deg);
 }
 
+// True verticals, desktop only — width/height swapped vs. h1/h2.
+.parallax-line--v1 {
+    top: -10%;
+    left: 28%;
+    width: 1px;
+    height: 120%;
+}
+
+.parallax-line--v2 {
+    top: -10%;
+    left: 64%;
+    width: 1px;
+    height: 120%;
+}
+
 .parallax-planet {
     @include user-select-none;
     width: 36vw;
@@ -155,6 +170,11 @@
     .parallax-line--diagonal-3 {
         width: 155vh;
         transform: rotate(-75deg);
+    }
+
+    .parallax-line--v1,
+    .parallax-line--v2 {
+        display: none;
     }
 
     .parallax-planet {
