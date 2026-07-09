@@ -106,6 +106,15 @@ function buildLinesAmbientTimeline() {
     });
   }
 
+  // Terminal-style cursor blink — hard cut, not a fade, half a second each way
+  tl.to('.parallax-error .gold', {
+    opacity: 0,
+    duration: 0,
+    repeat: -1,
+    repeatDelay: 0.5,
+    yoyo: true
+  }, 0);
+
   return tl;
 }
 
