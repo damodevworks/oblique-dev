@@ -32,7 +32,7 @@ lockCentering();
     .to('.parallax-meteorite-3', { y: -7, x: 7 }, 0)
     .to('.parallax-meteorite-4', { y: -25 }, 0)
     .to('.parallax-planet', { y: -10 }, 0)
-    
+
 
   return tl;
 }
@@ -99,10 +99,12 @@ export function initParallaxAmbientLines() {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   if (!document.querySelector('.parallax')) return;
 
+  // Buffered on both ends by ~a fifth of a viewport so the lines are already
+  // moving before the section is visible, and don't visibly freeze right as it leaves.
   const start = () => createAmbientLifecycle({
     trigger: '.parallax',
-    start: 'top center',
-    end: 'bottom+=100% top',
+    start: 'top bottom+=20%',
+    end: 'bottom+=100% top-=20%',
     buildTimeline: buildLinesAmbientTimeline
   });
 
