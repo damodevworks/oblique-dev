@@ -9,6 +9,25 @@ function lockCentering() {
   gsap.set('.parallax-planet, .parallax-meteorite', { xPercent: -50, yPercent: -50 });
 }
 
+// Index reads 0,81 at pin start and counts up to 1,00 by pin end — throttled
+// to ~500ms so it ticks like a terminal readout instead of a smooth blur,
+// but the start/end values always snap exactly regardless of scroll speed.
+const INDEX_START = 0.81;
+const INDEX_END = 1;
+let lastIndexUpdate = 0;
+
+function updateIndexReadout(progress) {
+  const isBoundary = progress === 0 || progress === 1;
+  const now = Date.now();
+  if (!isBoundary && now - lastIndexUpdate < 500) return;
+  lastIndexUpdate = now;
+
+  const el = document.querySelector('.parallax-index .rust');
+  if (!el) return;
+  const value = INDEX_START + progress * (INDEX_END - INDEX_START);
+  el.textContent = value.toFixed(2).replace('.', ',');
+}
+
 function buildPinTimeline() {
 lockCentering();
 
@@ -22,7 +41,8 @@ lockCentering();
       pin: true,
       scrub: true, // ScrollSmoother already smooths the input — a second scrub lag on top overshoots
       anticipatePin: 1,
-      markers: true // dev only — remove once pin behaviour is confirmed
+      markers: true, // dev only — remove once pin behaviour is confirmed
+      onUpdate: (self) => updateIndexReadout(self.progress)
     },
     defaults: { ease: 'none' }
   });
