@@ -7,6 +7,14 @@ import { initCustomCursor } from './gsap/cursor.js';
 import { smoothInit } from './gsap/smooth-scroll.js';
 import { initParallaxPin, initParallaxAmbientLines, initParallaxDepthLayering } from './gsap/parallax.js';
 
+// Chrome keeps re-restoring the old scroll position as images load in, so keep forcing it back to 0
+if ('scrollRestoration' in history) {
+  history.scrollRestoration = 'manual';
+}
+const forceScrollTop = () => window.scrollTo(0, 0);
+forceScrollTop();
+window.addEventListener('load', forceScrollTop);
+window.addEventListener('pageshow', forceScrollTop);
 
 // Mark styles ready (FOUC prevention)
 document.documentElement.classList.add('styles-ready');
@@ -14,7 +22,7 @@ initCustomCursor();
 
 // ***** LOADER ****** //
 // false = dev mode - without loader
-const USE_LOADER = false;
+const USE_LOADER = true;
 
 if (USE_LOADER) {
   bootLoader();
