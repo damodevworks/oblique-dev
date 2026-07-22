@@ -22,7 +22,7 @@ initCustomCursor();
 
 // ***** LOADER ****** //
 // false = dev mode - without loader
-const USE_LOADER = true;
+const USE_LOADER = false;
 
 if (USE_LOADER) {
   bootLoader();
@@ -39,3 +39,8 @@ initHeaderAnimations();
 initParallaxPin();
 initParallaxAmbientLines();
 initParallaxDepthLayering();
+
+// force a full reload on any change instead of letting Vite hot-swap GSAP/ScrollTrigger in place
+if (import.meta.hot) {
+  import.meta.hot.accept(() => window.location.reload());
+}
