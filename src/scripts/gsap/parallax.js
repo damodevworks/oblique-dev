@@ -6,7 +6,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 
 function lockCentering() {
-  gsap.set('.parallax-planet, .parallax-meteorite', { xPercent: -50, yPercent: -50 });
+  gsap.set('.parallax-planet, .parallax-meteorite', { xPercent: -50, yPercent: -50, x: 0, y: 0 });
 }
 
 // Index reads 0,81 at pin start and counts up to 1,00 by pin end — throttled
@@ -36,7 +36,7 @@ lockCentering();
       trigger: '.parallax',
       start: 'top top',
       // explicit px instead of '+=150%' — sidesteps whatever is making GSAP
-      // infer the wrong axis from the percentage (see parallax-save.md)
+      // infer the wrong axis from the percentage
       end: () => '+=' + document.querySelector('.parallax').offsetHeight * 1.5,
       pin: true,
       scrub: true, // ScrollSmoother already smooths the input — a second scrub lag on top overshoots
@@ -49,7 +49,7 @@ lockCentering();
 
   tl.to('.parallax-meteorite-1', { y: -60 }, 0)
     .to('.parallax-meteorite-2', { y: 40 }, 0)
-    .to('.parallax-meteorite-3', { y: -7, x: 7 }, 0)
+    .to('.parallax-meteorite-3', { y: '-=60', x: '+=15' }, 0)
     .to('.parallax-meteorite-4', { y: -25 }, 0)
     .to('.parallax-planet', { y: -10 }, 0)
 
@@ -125,6 +125,17 @@ function buildLinesAmbientTimeline() {
       }, 0);
     });
   }
+
+  // Meteorites tumble gently on their own instead of holding a fixed angle
+  ['.parallax-meteorite-1', '.parallax-meteorite-2', '.parallax-meteorite-3', '.parallax-meteorite-4'].forEach((selector) => {
+    tl.to(selector, {
+      rotation: randomSweep(6, 40),
+      duration: gsap.utils.random(4, 7),
+      repeat: -1,
+      yoyo: true,
+      ease: 'sine.inOut'
+    }, 0);
+  });
 
   // Terminal-style cursor blink — hard cut, not a fade, half a second each way
   tl.to('.parallax-error .gold', {
