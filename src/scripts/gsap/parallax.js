@@ -41,7 +41,6 @@ lockCentering();
       pin: true,
       scrub: true, // ScrollSmoother already smooths the input — a second scrub lag on top overshoots
       anticipatePin: 1,
-      markers: true, // dev only — remove once pin behaviour is confirmed
       onUpdate: (self) => updateIndexReadout(self.progress)
     },
     defaults: { ease: 'none' }
