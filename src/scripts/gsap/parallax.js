@@ -57,7 +57,6 @@ lockCentering();
 }
 
 export function initParallaxPin() {
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   if (!document.querySelector('.parallax')) return;
 
   if (document.body.classList.contains('is-loading')) {
@@ -136,6 +135,15 @@ function buildLinesAmbientTimeline() {
     }, 0);
   });
 
+  return tl;
+}
+
+// Kept independent of the lines/meteorite ambient timeline so it can keep
+// running under prefers-reduced-motion — a terminal cursor blink reads as a
+// UI indicator, not decorative motion.
+function buildErrorBlinkTimeline() {
+  const tl = gsap.timeline();
+
   // Terminal-style cursor blink — hard cut, not a fade, half a second each way
   tl.to('.parallax-error .gold', {
     opacity: 0,
@@ -164,6 +172,24 @@ export function initParallaxAmbientLines() {
     start: 'top bottom+=20%',
     end: 'bottom+=100% top-=20%',
     buildTimeline: buildLinesAmbientTimeline
+  });
+
+  if (document.body.classList.contains('is-loading')) {
+    document.addEventListener('loader:complete', start, { once: true });
+  } else {
+    start();
+  }
+}
+
+// Not gated by prefers-reduced-motion — see buildErrorBlinkTimeline.
+export function initErrorBlink() {
+  if (!document.querySelector('.parallax')) return;
+
+  const start = () => createAmbientLifecycle({
+    trigger: '.parallax',
+    start: 'top bottom+=20%',
+    end: 'bottom+=100% top-=20%',
+    buildTimeline: buildErrorBlinkTimeline
   });
 
   if (document.body.classList.contains('is-loading')) {

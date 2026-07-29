@@ -5,7 +5,7 @@ import { bootLoader } from './utils/loader';
 import { initHeaderAnimations } from './gsap/header.js';
 import { initCustomCursor } from './gsap/cursor.js';
 import { smoothInit } from './gsap/smooth-scroll.js';
-import { initParallaxPin, initParallaxAmbientLines, initParallaxDepthLayering } from './gsap/parallax.js';
+import { initParallaxPin, initParallaxAmbientLines, initParallaxDepthLayering, initErrorBlink } from './gsap/parallax.js';
 
 // Chrome keeps re-restoring the old scroll position as images load in, so keep forcing it back to 0
 if ('scrollRestoration' in history) {
@@ -39,6 +39,7 @@ initHeaderAnimations();
 initParallaxPin();
 initParallaxAmbientLines();
 initParallaxDepthLayering();
+initErrorBlink();
 
 // force a full reload on any change instead of letting Vite hot-swap GSAP/ScrollTrigger in place
 if (import.meta.hot) {
