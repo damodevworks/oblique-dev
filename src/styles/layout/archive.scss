@@ -1,0 +1,237 @@
+@use '../utils/variables' as var;
+@use '../utils/mixins' as m;
+
+.archive {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+.archive--mobile {
+    display: none;
+}
+
+// -- Shared: caret / arrow triangle (reused from the hero's .fracture-icon asset) --
+.archive-card-caret,
+.archive-arrow {
+    width: 14px;
+    height: 14px;
+}
+
+.archive-arrow {
+    width: 24px;
+    height: 24px;
+    pointer-events: none;
+}
+
+.archive-arrow--right {
+    transform: rotate(180deg);
+}
+
+// -- Desktop --
+
+.archive-hud {
+    @include m.accent-font-base;
+    position: absolute;
+    top: 5.9%;
+    left: 3.4%;
+    font-size: clamp(1.5rem, 1.3vw, 1.9rem);
+    white-space: nowrap;
+}
+
+.archive-fragment {
+    position: absolute;
+    pointer-events: none;
+}
+
+.archive-fragment-1 {
+    top: 8%;
+    right: 3%;
+    width: 20vw;
+    max-width: 264px;
+    height: auto;
+}
+
+.archive-fragment-2 {
+    top: 74%;
+    left: 14%;
+    width: 18vw;
+    max-width: 280px;
+    height: auto;
+    z-index: 1;
+}
+
+.archive-title {
+    position: absolute;
+    top: 15%;
+    left: 12.4%;
+    font-size: clamp(3.6rem, 4.5vw, 5.6rem);
+    font-weight: var.$w-regular;
+}
+
+.archive-gallery {
+    position: absolute;
+    top: 30%;
+    left: 16%;
+    width: 68%;
+    height: 40%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2%;
+    padding: 0 3%;
+    border: 1px solid rgba(15, 10, 10, 0.15);
+    box-sizing: border-box;
+}
+
+.archive-card {
+    position: relative;
+    z-index: 1;
+    flex: 1;
+    height: 78%;
+    background-color: #C4C4C4; // same flat grey as the fragment SVG masks
+}
+
+.archive-card-caret {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%) rotate(-90deg);
+}
+
+// Centered on the gallery box itself (not `.archive`) so it always lands
+// between card 2 and 3 regardless of the gallery's own position — 4 equal
+// cards + symmetric padding means the gallery's true center IS that gap.
+.archive-topo {
+    position: absolute;
+    z-index: 0;
+    top: 50%;
+    left: 50%;
+    width: 36vw;
+    max-width: 500px;
+    height: auto;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
+.archive-line {
+    position: absolute;
+    z-index: 0;
+    top: 55%;
+    left: -5%;
+    width: 170vh;
+    height: 1px;
+    background-color: var.$colour-black;
+    opacity: 0.12;
+    transform: rotate(22deg);
+    transform-origin: 0 0;
+    pointer-events: none;
+}
+
+.archive-status,
+.archive-recovery {
+    @include m.accent-font-base;
+    position: absolute;
+    right: 3%;
+    font-size: clamp(1.5rem, 1.3vw, 1.9rem);
+    white-space: nowrap;
+}
+
+.archive-status {
+    top: 77%;
+}
+
+.archive-recovery {
+    top: 94%;
+}
+
+// -- Mobile --
+
+@media (orientation: portrait), (max-aspect-ratio: 1/1), (max-aspect-ratio: 12/10) {
+    .archive--desktop {
+        display: none;
+    }
+
+    .archive--mobile {
+        display: block;
+    }
+
+    .archive {
+        min-height: auto;
+        padding: 12vh 0 8vh;
+    }
+
+    .archive-hud {
+        position: static;
+        text-align: center;
+        font-size: 1.3rem;
+        padding: 0 5%;
+    }
+
+    .archive-title {
+        position: static;
+        display: block;
+        text-align: center;
+        margin-top: 3vh;
+        font-size: clamp(3.2rem, 10vw, 4.2rem);
+    }
+
+    .archive-carousel {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4vw;
+        margin-top: 6vh;
+    }
+
+    .archive-card--mobile {
+        position: relative;
+        width: 55vw;
+        max-width: 260px;
+        aspect-ratio: 1 / 1;
+        background-color: rgba(15, 10, 10, 0.08);
+        border: 1px solid rgba(15, 10, 10, 0.15);
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .archive-card--mobile .archive-topo {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 90%;
+        max-width: none;
+        transform: translate(-50%, -50%);
+    }
+
+    .archive-card-number {
+        @include m.accent-font-base;
+        position: relative;
+        font-size: clamp(3rem, 12vw, 4.4rem);
+    }
+
+    .archive-status,
+    .archive-recovery {
+        position: static;
+        display: block;
+        text-align: right;
+        margin: 0 8%;
+        font-size: 1.3rem;
+    }
+
+    .archive-status {
+        margin-top: 8vh;
+    }
+
+    .archive-recovery {
+        margin-top: 1.5vh;
+    }
+
+    .archive-line {
+        display: none;
+    }
+}
