@@ -149,6 +149,10 @@
 
 // Mobile — recomposed, not scaled. Only two meteorites are kept.
 @media (orientation: portrait), (max-aspect-ratio: 1/1), (max-aspect-ratio: 12/10) {
+    .parallax {
+        margin-top: 20vh;
+    }
+
     .parallax-line--h1 {
         top: 23.7%;
     }
