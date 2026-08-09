@@ -6,6 +6,7 @@ import { initHeaderAnimations } from './gsap/header.js';
 import { initCustomCursor } from './gsap/cursor.js';
 import { smoothInit } from './gsap/smooth-scroll.js';
 import { initParallaxPin, initParallaxAmbientLines, initParallaxDepthLayering, initErrorBlink } from './gsap/parallax.js';
+import { initArchiveAnimation } from './gsap/archive.js';
 
 // Chrome keeps re-restoring the old scroll position as images load in, so keep forcing it back to 0
 if ('scrollRestoration' in history) {
@@ -40,6 +41,17 @@ initParallaxPin();
 initParallaxAmbientLines();
 initParallaxDepthLayering();
 initErrorBlink();
+
+// ***** ARCHIVE ANIMATION ****** //
+// true = section hidden until the scroll-triggered HUD reveal runs
+// false = dev mode - section always visible, no animation
+const USE_ARCHIVE_ANIMATION = true;
+
+if (USE_ARCHIVE_ANIMATION) {
+  initArchiveAnimation();
+} else {
+  document.querySelector('.archive')?.classList.add('archive--dev-visible');
+}
 
 // force a full reload on any change instead of letting Vite hot-swap GSAP/ScrollTrigger in place
 if (import.meta.hot) {
