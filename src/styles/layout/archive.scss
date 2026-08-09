@@ -1,14 +1,92 @@
 @use '../utils/variables' as var;
 @use '../utils/mixins' as m;
 
+// Hidden until the scroll-triggered reveal runs. `.archive--dev-visible` bypasses this for styling work.
 .archive {
     position: relative;
     width: 100%;
     min-height: 100vh;
     overflow: hidden;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.archive--dev-visible {
+    opacity: 1;
+    visibility: visible;
 }
 
 .archive--mobile {
+    display: none;
+}
+
+// Fade-in-and-drop group revealed together after the HUD/Memory/Recovery cursor reveals finish.
+.archive-title,
+.archive-gallery,
+.archive-fragment,
+.archive-fragment-2--mobile,
+.archive-carousel {
+    opacity: 0;
+    transform: translateY(-20px);
+}
+
+.archive--dev-visible .archive-title,
+.archive--dev-visible .archive-gallery,
+.archive--dev-visible .archive-fragment,
+.archive--dev-visible .archive-fragment-2--mobile,
+.archive--dev-visible .archive-carousel {
+    opacity: 1;
+    transform: none;
+}
+
+// Cards reveal separately, staggered one by one after the group above.
+.archive-card,
+.archive-card--mobile {
+    opacity: 0;
+}
+
+.archive--dev-visible .archive-card,
+.archive--dev-visible .archive-card--mobile {
+    opacity: 1;
+}
+
+// Topo lines fade in last, after the cards.
+.archive-topo {
+    opacity: 0;
+}
+
+.archive--dev-visible .archive-topo {
+    opacity: 1;
+}
+
+// -- Shared: terminal-cursor reveal (clip-path wipe + cursor sweep) --
+.archive-reveal-inner {
+    position: relative;
+    display: inline-block;
+}
+
+.archive-reveal-text {
+    display: inline-block;
+    clip-path: inset(0 100% 0 0);
+}
+
+.archive-reveal-cursor {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2px;
+    height: 100%;
+    background-color: var.$colour-black;
+    transform-origin: center;
+    transform: scaleY(0);
+    pointer-events: none;
+}
+
+.archive--dev-visible .archive-reveal-text {
+    clip-path: none;
+}
+
+.archive--dev-visible .archive-reveal-cursor {
     display: none;
 }
 
@@ -19,6 +97,10 @@
     height: 14px;
 }
 
+.archive-card-caret {
+    z-index: 1;
+}
+
 .archive-arrow {
     width: 24px;
     height: 24px;
@@ -27,6 +109,55 @@
 
 .archive-arrow--right {
     transform: rotate(180deg);
+}
+
+// -- Shared: dark tint over the card photos --
+.archive-card-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-color: rgba(var.$colour-black, 0.35);
+    pointer-events: none;
+    transition: background-color 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+// Scaled up so the scroll-linked pan (archive.js) has room to move without exposing edges.
+.archive-drift-image {
+    transform-box: fill-box;
+    transform-origin: center;
+    transform: scale(1.2);
+}
+
+// -- Shared: card hover, scoped to real pointers only --
+@media (hover: hover) and (pointer: fine) {
+    .archive-card {
+        transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .archive-card:hover {
+        transform: scale(1.015);
+    }
+
+    .archive-card:hover .archive-card-overlay {
+        background-color: rgba(var.$colour-black, 0.2);
+    }
+
+    .archive-card-number {
+        transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .archive-card:hover .archive-card-number {
+        transform: translate(-50%, -50%) scale(1.08);
+    }
+
+    .archive-card-caret {
+        transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .archive-card:hover .archive-card-caret {
+        // translateY first so it nudges down on screen, not in the rotated local frame.
+        transform: translateY(4px) translateX(-50%) rotate(-90deg);
+    }
 }
 
 // -- Desktop --
@@ -90,7 +221,45 @@
     z-index: 1;
     flex: 1;
     height: 78%;
-    background-color: #C4C4C4; // same flat grey as the fragment SVG masks
+    overflow: hidden; // masks .archive-card-photo's scale/pan bleed
+    background-color: #C4C4C4; // fallback while the image loads
+}
+
+// The photo, separate from .archive-card so it can scale/pan independently of the overlay/caret/number and the hover scale.
+.archive-card-photo {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-size: cover;
+    background-position: center;
+    transform-origin: center;
+    transform: scale(1.2);
+}
+
+.archive-card-photo--abstract {
+    background-image: url('../../../assets/abstract.webp');
+}
+
+.archive-card-photo--brutalism {
+    background-image: url('../../../assets/BRUTALISM.webp');
+}
+
+.archive-card-photo--space1 {
+    background-image: url('../../../assets/space1-editorial-v2.webp');
+}
+
+.archive-card-photo--nasa1 {
+    background-image: url('../../../assets/nasa1-editorial.webp');
+}
+
+.archive-card-number {
+    @include m.accent-font-base;
+    position: absolute;
+    z-index: 1;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: clamp(4rem, 5vw, 6.5rem);
 }
 
 .archive-card-caret {
@@ -100,9 +269,7 @@
     transform: translateX(-50%) rotate(-90deg);
 }
 
-// Centered on the gallery box itself (not `.archive`) so it always lands
-// between card 2 and 3 regardless of the gallery's own position — 4 equal
-// cards + symmetric padding means the gallery's true center IS that gap.
+// Centered on the gallery box so it always lands between card 2 and 3.
 .archive-topo {
     position: absolute;
     z-index: 0;
@@ -115,6 +282,7 @@
     pointer-events: none;
 }
 
+// Hidden pending reveal; animates to its resting opacity of 0.12, not fully opaque.
 .archive-line {
     position: absolute;
     z-index: 0;
@@ -123,10 +291,15 @@
     width: 170vh;
     height: 1px;
     background-color: var.$colour-black;
-    opacity: 0.12;
+    opacity: 0;
     transform: rotate(22deg);
     transform-origin: 0 0;
     pointer-events: none;
+}
+
+.archive--dev-visible .archive-line {
+    opacity: 0.12;
+    transform: rotate(22deg);
 }
 
 .archive-status,
@@ -165,16 +338,17 @@
     .archive-hud {
         position: static;
         text-align: center;
-        font-size: 1.3rem;
+        font-size: clamp(1.6rem, 4.6vw, 2.2rem);
         padding: 0 5%;
     }
 
     .archive-title {
         position: static;
         display: block;
-        text-align: center;
+        text-align: left;
         margin-top: 3vh;
-        font-size: clamp(3.2rem, 10vw, 4.2rem);
+        padding: 0 5%;
+        font-size: clamp(5rem, 15vw, 7.6rem);
     }
 
     .archive-carousel {
@@ -186,45 +360,77 @@
         margin-top: 6vh;
     }
 
-    .archive-card--mobile {
+    // Portrait rectangle (282 wide x 394 tall), grows toward tablet widths.
+    .archive-frame {
         position: relative;
-        width: 55vw;
-        max-width: 260px;
-        aspect-ratio: 1 / 1;
-        background-color: rgba(15, 10, 10, 0.08);
-        border: 1px solid rgba(15, 10, 10, 0.15);
+        flex-shrink: 0;
+        width: clamp(230px, 62vw, 380px);
+        aspect-ratio: 282 / 394;
+        border: 0.55px solid rgba(0, 0, 0, 0.4);
+        box-sizing: border-box;
+    }
+
+    .archive-frame .archive-topo {
+        position: absolute;
+        z-index: 0;
+        top: 50%;
+        left: 50%;
+        width: 92%;
+        max-width: none;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+    }
+
+    .archive-card--mobile {
+        position: absolute;
+        z-index: 1;
+        top: 50%;
+        left: 50%;
+        width: 66%;
+        aspect-ratio: 282 / 394;
+        overflow: hidden;
+        transform: translate(-50%, -50%);
         box-sizing: border-box;
         display: flex;
         align-items: center;
         justify-content: center;
     }
 
-    .archive-card--mobile .archive-topo {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 90%;
-        max-width: none;
-        transform: translate(-50%, -50%);
-    }
-
     .archive-card-number {
         @include m.accent-font-base;
         position: relative;
-        font-size: clamp(3rem, 12vw, 4.4rem);
+        top: auto;
+        left: auto;
+        z-index: 1;
+        transform: none;
+        font-size: clamp(4.5rem, 15vw, 6.8rem);
+    }
+
+    .archive-footer {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        margin-top: 10vh;
+        padding: 0 8%;
+    }
+
+    .archive-fragment-2--mobile {
+        flex-shrink: 0;
+        width: 28vw;
+        max-width: 140px;
+        height: auto;
+        pointer-events: none;
+    }
+
+    .archive-status-block {
+        text-align: right;
     }
 
     .archive-status,
     .archive-recovery {
         position: static;
         display: block;
-        text-align: right;
-        margin: 0 8%;
-        font-size: 1.3rem;
-    }
-
-    .archive-status {
-        margin-top: 8vh;
+        font-size: clamp(1.6rem, 4.6vw, 2.2rem);
     }
 
     .archive-recovery {
