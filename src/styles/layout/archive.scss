@@ -1,7 +1,7 @@
 @use '../utils/variables' as var;
 @use '../utils/mixins' as m;
 
-// Hidden until the scroll-triggered reveal runs. `.archive--dev-visible` bypasses this for styling work.
+// Hidden until the scroll-triggered reveal runs.
 .archive {
     position: relative;
     width: 100%;
@@ -11,16 +11,15 @@
     visibility: hidden;
 }
 
-.archive--dev-visible {
-    opacity: 1;
-    visibility: visible;
-}
-
 .archive--mobile {
     display: none;
 }
 
 // Fade-in-and-drop group revealed together after the HUD/Memory/Recovery cursor reveals finish.
+// pointer-events: none while hidden — opacity:0 alone still lets the mouse
+// hover/click/focus these (the cursor's hover reticle and the carousel
+// arrows were both reachable before their reveal, since they were only
+// visually hidden, not actually removed from hit-testing).
 .archive-title,
 .archive-gallery,
 .archive-fragment,
@@ -28,35 +27,20 @@
 .archive-carousel {
     opacity: 0;
     transform: translateY(-20px);
+    pointer-events: none;
 }
 
-.archive--dev-visible .archive-title,
-.archive--dev-visible .archive-gallery,
-.archive--dev-visible .archive-fragment,
-.archive--dev-visible .archive-fragment-2--mobile,
-.archive--dev-visible .archive-carousel {
-    opacity: 1;
-    transform: none;
-}
-
-// Cards reveal separately, staggered one by one after the group above.
+// Cards reveal separately, staggered one by one after the group above —
+// same pointer-events issue, same fix.
 .archive-card,
 .archive-card--mobile {
     opacity: 0;
-}
-
-.archive--dev-visible .archive-card,
-.archive--dev-visible .archive-card--mobile {
-    opacity: 1;
+    pointer-events: none;
 }
 
 // Topo lines fade in last, after the cards.
 .archive-topo {
     opacity: 0;
-}
-
-.archive--dev-visible .archive-topo {
-    opacity: 1;
 }
 
 // -- Shared: terminal-cursor reveal (clip-path wipe + cursor sweep) --
@@ -82,14 +66,6 @@
     pointer-events: none;
 }
 
-.archive--dev-visible .archive-reveal-text {
-    clip-path: none;
-}
-
-.archive--dev-visible .archive-reveal-cursor {
-    display: none;
-}
-
 // -- Shared: caret / arrow triangle (reused from the hero's .fracture-icon asset) --
 .archive-card-caret,
 .archive-arrow {
@@ -109,6 +85,37 @@
 
 .archive-arrow--right {
     transform: rotate(180deg);
+}
+
+// Unstyled button wrapping each arrow so the 24px icon gets a real
+// (44px+) touch target and native keyboard/focus support.
+.archive-arrow-btn {
+    all: unset;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    -webkit-tap-highlight-color: transparent;
+}
+
+// No cursor:pointer here on purpose — real pointers get the custom GSAP
+// cursor (cursor.js), which would otherwise be hidden behind it. Touch
+// devices don't render a pointer icon regardless.
+
+.archive-arrow-btn:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(var.$colour-primary, 0.18);
+    border-radius: 4px;
+}
+
+// -- Shared: cards are keyboard/tap-operable (open the fragment detail dialog) --
+// No cursor:pointer — cursor.js gives these the same subtle custom-cursor
+// hover reaction as buttons instead (real pointers hide the native cursor
+// entirely; a pointer icon here would fight with that).
+.archive-card:focus-visible,
+.archive-card--mobile:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(var.$colour-primary, 0.35);
 }
 
 // -- Shared: dark tint over the card photos --
@@ -260,6 +267,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: clamp(4rem, 5vw, 6.5rem);
+    filter: drop-shadow(0 1px 2px rgba(var.$colour-black, 0.6));
 }
 
 .archive-card-caret {
@@ -267,6 +275,7 @@
     top: 10px;
     left: 50%;
     transform: translateX(-50%) rotate(-90deg);
+    filter: drop-shadow(0 1px 2px rgba(var.$colour-black, 0.6));
 }
 
 // Centered on the gallery box so it always lands between card 2 and 3.
@@ -297,11 +306,6 @@
     pointer-events: none;
 }
 
-.archive--dev-visible .archive-line {
-    opacity: 0.12;
-    transform: rotate(22deg);
-}
-
 .archive-status,
 .archive-recovery {
     @include m.accent-font-base;
@@ -317,6 +321,115 @@
 
 .archive-recovery {
     top: 94%;
+}
+
+// -- Fragment detail: click a card, its photo FLIPs into a large panel
+// alongside recovered-fragment copy. Desktop: side-by-side split. Mobile
+// override (in the portrait block below) rotates it to a stacked split. --
+.archive-detail {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    max-width: 100vw;
+    max-height: 100vh;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: transparent;
+    overflow: hidden;
+}
+
+.archive-detail::backdrop {
+    background: transparent;
+}
+
+.archive-detail-scrim {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(var.$colour-black, 0.82);
+}
+
+.archive-detail-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+// Stepped-corner mask, same family of shape as .archive-fragment — in
+// percentage units so it holds up at any panel size/aspect ratio.
+.archive-detail-image {
+    position: relative;
+    flex: 1 1 58%;
+    overflow: hidden;
+    background-color: var.$colour-black;
+    clip-path: polygon(0% 7%, 7% 7%, 7% 0%, 100% 0%, 100% 93%, 93% 93%, 93% 100%, 0% 100%);
+}
+
+.archive-detail-flip-photo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+}
+
+.archive-detail-copy {
+    position: relative;
+    flex: 1 1 42%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1.6rem;
+    padding: 6vw;
+    box-sizing: border-box;
+    background-color: var.$colour-white;
+}
+
+.archive-detail-close {
+    all: unset;
+    position: absolute;
+    top: 2.4rem;
+    right: 2.4rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    color: var.$colour-black;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.archive-detail-close:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(var.$colour-primary, 0.18);
+    border-radius: 50%;
+}
+
+.archive-detail-eyebrow {
+    @include m.accent-font-base;
+    font-size: clamp(1.3rem, 1.1vw, 1.6rem);
+}
+
+.archive-detail-title {
+    font-size: clamp(3.2rem, 3.4vw, 4.8rem);
+    font-weight: var.$w-regular;
+}
+
+.archive-detail-status {
+    @include m.accent-font-base;
+    font-size: clamp(1.4rem, 1.2vw, 1.7rem);
+}
+
+.archive-detail-body {
+    max-width: 46ch;
+    font-family: var.$font-secondary;
+    font-size: clamp(1.5rem, 1.2vw, 1.8rem);
+    line-height: 1.6;
 }
 
 // -- Mobile --
@@ -394,6 +507,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        clip-path: inset(0% 0% 0% 0%);
     }
 
     .archive-card-number {
@@ -439,5 +553,28 @@
 
     .archive-line {
         display: none;
+    }
+
+    // Rotate the split axis: image on top (~55% of the viewport height),
+    // copy panel below it, scrollable if the body copy runs long.
+    .archive-detail-inner {
+        flex-direction: column;
+    }
+
+    .archive-detail-image {
+        flex: 0 0 55vh;
+    }
+
+    .archive-detail-copy {
+        flex: 1 1 auto;
+        justify-content: flex-start;
+        gap: 1.2rem;
+        padding: 9vh 8vw 6vh;
+        overflow-y: auto;
+    }
+
+    .archive-detail-close {
+        top: 1.6rem;
+        right: 1.6rem;
     }
 }

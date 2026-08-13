@@ -30,7 +30,9 @@ function buildCursorRevealTimeline(container, sweepDuration = 0.9) {
 }
 
 // Plays the cursor reveal on every matching element and resolves once they're all done.
-function playCursorReveal(selector, sweepDuration) {
+// Exported so the fragment detail dialog can replay the same terminal-typing
+// effect on its own eyebrow/status lines instead of duplicating the timeline logic.
+export function playCursorReveal(selector, sweepDuration) {
   return new Promise((resolve) => {
     const elements = document.querySelectorAll(selector);
     if (!elements.length) return resolve();
@@ -61,7 +63,7 @@ function buildRestRevealTimeline(section) {
 
   const tl = gsap.timeline({ defaults: { ease: 'expo.inOut', duration: 1 } });
 
-  tl.to(fadeDropTargets, { opacity: 1, y: 0 }, 0);
+  tl.to(fadeDropTargets, { opacity: 1, y: 0, pointerEvents: 'auto' }, 0);
   if (line) tl.to(line, { opacity: 0.12, scaleX: 1 }, 0);
 
   return tl;
@@ -76,7 +78,7 @@ function buildCardsRevealTimeline(section) {
   const offsetVars = desktopVisible ? { y: 0 } : { marginTop: 0 };
 
   return gsap.timeline({ defaults: { ease: 'expo.inOut', duration: 0.6 } })
-    .to(cards, { opacity: 1, ...offsetVars, stagger: CARD_STAGGER });
+    .to(cards, { opacity: 1, pointerEvents: 'auto', ...offsetVars, stagger: CARD_STAGGER });
 }
 
 // Reveals the section and plays the ACCESS_KEY cursor reveal.
@@ -139,6 +141,116 @@ function initImageDrift(section) {
     { y: -14 },
     { y: 14, ease: 'none', scrollTrigger: makeScrollTriggerVars() }
   );
+}
+
+// Single source of truth for the 4 archive fragments — same order as the
+// desktop gallery. Shared by the mobile carousel (photo/number) and the
+// fragment detail dialog (title/memory/body), so the content only lives here.
+export const ARCHIVE_FRAGMENTS = [
+  {
+    photo: 'abstract',
+    number: '01',
+    title: 'Static Bloom',
+    memory: 78,
+    body: 'A waveform recovered from corrupted storage. No timestamp, no source — just color where data used to be.'
+  },
+  {
+    photo: 'brutalism',
+    number: '02',
+    title: 'Dead Reckoning',
+    memory: 41,
+    body: 'Overlapping scans: a lunar mission log spliced with something older. The system can’t separate the two.'
+  },
+  {
+    photo: 'space1',
+    number: '03',
+    title: 'Pulse',
+    memory: 92,
+    body: 'Vitals from a body that was never logged. The pulse is real. Everything else is inference.'
+  },
+  {
+    photo: 'nasa1',
+    number: '04',
+    title: 'Cosmos',
+    memory: 24,
+    body: 'The widest frame the archive could reconstruct. Most of it is still missing.'
+  }
+];
+const CAROUSEL_WIPE_DURATION = 0.5;
+
+// Mobile carousel: swaps the single card's photo/number in place, wiped in
+// with the same clip-path sweep used by the terminal-cursor reveal elsewhere
+// in this section, so the transition reads as part of the same motion language.
+export function initArchiveCarousel() {
+  const carousel = document.querySelector('.archive-carousel');
+  const card = carousel?.querySelector('.archive-card--mobile');
+  const photo = card?.querySelector('.archive-card-photo');
+  const numberEl = card?.querySelector('.archive-card-number');
+  const prevBtn = carousel?.querySelector('.archive-arrow-btn:not(.archive-arrow-btn--right)');
+  const nextBtn = carousel?.querySelector('.archive-arrow-btn--right');
+  if (!card || !photo || !numberEl || !prevBtn || !nextBtn) return;
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let currentIndex = ARCHIVE_FRAGMENTS.findIndex((slide) =>
+    photo.classList.contains(`archive-card-photo--${slide.photo}`)
+  );
+  if (currentIndex === -1) currentIndex = 0;
+  let animating = false;
+
+  function applySlide(index) {
+    const slide = ARCHIVE_FRAGMENTS[index];
+    ARCHIVE_FRAGMENTS.forEach((s) => photo.classList.remove(`archive-card-photo--${s.photo}`));
+    photo.classList.add(`archive-card-photo--${slide.photo}`);
+    numberEl.textContent = slide.number;
+    card.setAttribute('aria-label', `View fragment ${slide.number}`);
+  }
+
+  function pressButton(btn) {
+    gsap.timeline()
+      .to(btn, { scale: 0.85, duration: 0.15, ease: 'power2.out' })
+      .to(btn, { scale: 1, duration: 0.3, ease: 'back.out(2)' });
+  }
+
+  function goTo(direction) {
+    if (animating) return;
+    animating = true;
+
+    const nextIndex = (currentIndex + direction + ARCHIVE_FRAGMENTS.length) % ARCHIVE_FRAGMENTS.length;
+
+    if (reduceMotion) {
+      gsap.to(card, {
+        opacity: 0,
+        duration: 0.2,
+        onComplete: () => {
+          applySlide(nextIndex);
+          currentIndex = nextIndex;
+          gsap.to(card, { opacity: 1, duration: 0.2, onComplete: () => { animating = false; } });
+        }
+      });
+      return;
+    }
+
+    // Sweeps left-to-right for "next", right-to-left for "prev" — same
+    // direction logic as the reveal cursor's clip-path wipe.
+    const exitTarget = direction > 0 ? 'inset(0% 0% 0% 100%)' : 'inset(0% 100% 0% 0%)';
+    const enterStart = direction > 0 ? 'inset(0% 100% 0% 0%)' : 'inset(0% 0% 0% 100%)';
+
+    gsap.timeline({ defaults: { ease: 'expo.inOut' } })
+      .to(card, { clipPath: exitTarget, duration: CAROUSEL_WIPE_DURATION })
+      .call(() => {
+        applySlide(nextIndex);
+        currentIndex = nextIndex;
+        gsap.set(card, { clipPath: enterStart });
+      })
+      .to(card, {
+        clipPath: 'inset(0% 0% 0% 0%)',
+        duration: CAROUSEL_WIPE_DURATION,
+        onComplete: () => { animating = false; }
+      });
+  }
+
+  prevBtn.addEventListener('click', () => { pressButton(prevBtn); goTo(-1); });
+  nextBtn.addEventListener('click', () => { pressButton(nextBtn); goTo(1); });
 }
 
 export function initArchiveAnimation() {
