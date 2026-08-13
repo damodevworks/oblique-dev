@@ -163,9 +163,32 @@ position: relative;
 
 .pathway {
     @include accent-font-base;
-    position: static;
+    position: relative;
     white-space: nowrap;
     font-size: clamp(1.6rem, 1.1vw, 2.8rem);
+}
+
+// Two tinted duplicates of the same text, snapped briefly into view on a
+// timer (hero-text-glitch.js) — same chromatic-split-echo technique already
+// used on the fracture title, just on a timer instead of a click. Shared by
+// .pathway and .location — both are already position:relative so the
+// absolutely-positioned ghosts overlay the real text exactly.
+.glitch-ghost {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    pointer-events: none;
+    mix-blend-mode: screen;
+    white-space: nowrap;
+}
+
+.glitch-ghost--red {
+    color: #ff2b4d;
+}
+
+.glitch-ghost--cyan {
+    color: #2bdcff;
 }
 
 .oblique-hero {
@@ -434,10 +457,18 @@ position: relative;
   }
 
   .pathway {
-    position: static;
+    position: relative;
     text-align: center;
     padding-top: 10px;
     font-size: clamp(var(--pathway-size-min), var(--pathway-size-fluid), var(--pathway-size-max));
+  }
+
+  // Mobile centers the pathway text, so its ghost overlay needs centering
+  // too. Scoped to .pathway only — .location is desktop-only (display:none
+  // on mobile, see below), so its ghosts never need this override.
+  .pathway .glitch-ghost {
+    left: 50%;
+    transform: translateX(-50%);
   }
 
   .noise-index {

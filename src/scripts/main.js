@@ -4,6 +4,7 @@ import { gsap } from 'gsap';
 import { bootLoader } from './utils/loader';
 import { initHeaderAnimations } from './gsap/header.js';
 import { initFractureGlitch } from './gsap/fracture.js';
+import { initHeroTextGlitch } from './gsap/hero-text-glitch.js';
 import { initCustomCursor } from './gsap/cursor.js';
 import { smoothInit } from './gsap/smooth-scroll.js';
 import { initParallaxPin, initParallaxAmbientLines, initParallaxDepthLayering, initErrorBlink } from './gsap/parallax.js';
@@ -40,6 +41,7 @@ if (USE_LOADER) {
 smoothInit();
 initHeaderAnimations();
 initFractureGlitch();
+initHeroTextGlitch();
 initParallaxPin();
 initParallaxAmbientLines();
 initParallaxDepthLayering();
