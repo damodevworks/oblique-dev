@@ -8,6 +8,14 @@
   }
 }
 
+// initCustomCursor() never touches the DOM on touch/coarse-pointer devices
+// (cursor.js bails out before it would hide it), so it has to start hidden
+// here instead of relying on JS to hide it.
+@media not all and (hover: hover) and (pointer: fine) {
+  .cursor {
+    display: none;
+  }
+}
 
 .cursor {
   position: fixed;
@@ -50,4 +58,47 @@
   height: 36px;
   background: rgba(223, 188, 33, 0.12);
   filter: blur(10px);
+}
+
+// "Lock-on" reticle: 4 corner brackets, closed/invisible at rest, snapped
+// open with a chromatic-split flicker (cursor.js) on hovering a clickable
+// target. Anchor is a zero-size point tracked at the ring's position.
+.cursor-bracket {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  filter: url(#cursor-glitch);
+}
+
+.cursor-bracket-corner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  opacity: 0;
+  transform: translate(-50%, -50%);
+  border: 1.5px solid var.$colour-accent;
+}
+
+.cursor-bracket-corner--tl {
+  border-right: none;
+  border-bottom: none;
+}
+
+.cursor-bracket-corner--tr {
+  border-left: none;
+  border-bottom: none;
+}
+
+.cursor-bracket-corner--bl {
+  border-right: none;
+  border-top: none;
+}
+
+.cursor-bracket-corner--br {
+  border-left: none;
+  border-top: none;
 }

@@ -431,10 +431,35 @@
       </div>
 
 
+        <!-- Cursor's own chromatic-split filter for the hover flicker — kept separate from #fracture-glitch so click and hover glitches never share state. -->
+        <svg width="0" height="0" style="position: absolute" aria-hidden="true">
+          <filter id="cursor-glitch" x="-60%" y="-60%" width="220%" height="220%" color-interpolation-filters="sRGB">
+            <feColorMatrix in="SourceGraphic" type="matrix"
+              values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="cursorRed" />
+            <feOffset id="cursor-red-offset" in="cursorRed" dx="0" dy="0" result="cursorRedOffset" />
+
+            <feColorMatrix in="SourceGraphic" type="matrix"
+              values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0" result="cursorGreen" />
+
+            <feColorMatrix in="SourceGraphic" type="matrix"
+              values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" result="cursorBlue" />
+            <feOffset id="cursor-blue-offset" in="cursorBlue" dx="0" dy="0" result="cursorBlueOffset" />
+
+            <feBlend in="cursorRedOffset" in2="cursorGreen" mode="screen" result="cursorRG" />
+            <feBlend in="cursorRG" in2="cursorBlueOffset" mode="screen" />
+          </filter>
+        </svg>
+
         <div class="cursor" aria-hidden="true">
           <div class="cursor-core"></div>
           <div class="cursor-ring"></div>
           <div class="cursor-distort"></div>
+          <div class="cursor-bracket">
+            <span class="cursor-bracket-corner cursor-bracket-corner--tl"></span>
+            <span class="cursor-bracket-corner cursor-bracket-corner--tr"></span>
+            <span class="cursor-bracket-corner cursor-bracket-corner--bl"></span>
+            <span class="cursor-bracket-corner cursor-bracket-corner--br"></span>
+          </div>
       </div>
     <script type="module" src="/src/scripts/main.js"></script>
   </body>

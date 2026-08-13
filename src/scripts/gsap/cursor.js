@@ -1,7 +1,6 @@
 import { gsap } from 'gsap';
 
 let isCursorInitialized = false;
-let removeCursorTicker = null;
 
 export function initCustomCursor() {
   if (isCursorInitialized) return;
@@ -10,10 +9,30 @@ export function initCustomCursor() {
   const core = document.querySelector('.cursor-core');
   const ring = document.querySelector('.cursor-ring');
   const distort = document.querySelector('.cursor-distort');
+  const bracket = document.querySelector('.cursor-bracket');
+  const cornerTl = document.querySelector('.cursor-bracket-corner--tl');
+  const cornerTr = document.querySelector('.cursor-bracket-corner--tr');
+  const cornerBl = document.querySelector('.cursor-bracket-corner--bl');
+  const cornerBr = document.querySelector('.cursor-bracket-corner--br');
+  const cursorRedOffset = document.getElementById('cursor-red-offset');
+  const cursorBlueOffset = document.getElementById('cursor-blue-offset');
 
   const isDesktopPointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
   if (!cursor || !core || !ring || !distort || !isDesktopPointer) return;
+
+  const hasBracket = bracket && cornerTl && cornerTr && cornerBl && cornerBr && cursorRedOffset && cursorBlueOffset;
+  // sign.x/y say which quadrant each corner opens toward from the center.
+  const bracketCorners = hasBracket
+    ? [
+        { el: cornerTl, sx: -1, sy: -1 },
+        { el: cornerTr, sx: 1, sy: -1 },
+        { el: cornerBl, sx: -1, sy: 1 },
+        { el: cornerBr, sx: 1, sy: 1 }
+      ]
+    : [];
+  const BRACKET_CLOSED = 3;
+  const BRACKET_OPEN = 16;
 
   isCursorInitialized = true;
 
@@ -42,6 +61,13 @@ export function initCustomCursor() {
   gsap.set(core, { xPercent: -50, yPercent: -50 });
   gsap.set(ring, { xPercent: -50, yPercent: -50 });
   gsap.set(distort, { xPercent: -50, yPercent: -50 });
+
+  if (hasBracket) {
+    gsap.set(bracket, { xPercent: -50, yPercent: -50 });
+    bracketCorners.forEach(({ el, sx, sy }) => {
+      gsap.set(el, { x: sx * BRACKET_CLOSED, y: sy * BRACKET_CLOSED, opacity: 0 });
+    });
+  }
 
   window.addEventListener('mousemove', (e) => {
     mouseX = e.clientX;
@@ -173,6 +199,10 @@ export function initCustomCursor() {
       y: ringY
     });
 
+    if (hasBracket) {
+      gsap.set(bracket, { x: ringX, y: ringY });
+    }
+
     gsap.set(distort, {
       x: distortX,
       y: distortY
@@ -180,7 +210,6 @@ export function initCustomCursor() {
   };
 
   gsap.ticker.add(tickCursor);
-  removeCursorTicker = () => gsap.ticker.remove(tickCursor);
 
   // subtle idle pulse
   gsap.to(ring, {
@@ -201,34 +230,76 @@ export function initCustomCursor() {
   });
 
   // Hover targets
-  const defaultHoverTargets = document.querySelectorAll('button, .fracture');
+  const defaultHoverTargets = document.querySelectorAll('button, .hero-left--desktop .image-fracture, .archive-card, .archive-card--mobile');
   const ctaHoverTargets = document.querySelectorAll('.CTA-button');
+
+  // Quick chromatic-split hit on the cursor's own filter (dedicated
+  // #cursor-glitch, not shared with fracture's #fracture-glitch) timed to
+  // land while the brackets are snapping open — a "signal lock" flicker
+  // rather than a smooth grow.
+  let flickerTween = null;
+
+  function playBracketFlicker() {
+    if (flickerTween) flickerTween.kill();
+
+    flickerTween = gsap.timeline()
+      .to(cursorRedOffset, { attr: { dx: -3, dy: 1 }, duration: 0.05 }, 0)
+      .to(cursorBlueOffset, { attr: { dx: 3, dy: -1 }, duration: 0.05 }, 0)
+      .to(cursorRedOffset, { attr: { dx: 2, dy: -1 }, duration: 0.05 })
+      .to(cursorBlueOffset, { attr: { dx: -2, dy: 1 }, duration: 0.05 }, '<')
+      .to(cursorRedOffset, { attr: { dx: 0, dy: 0 }, duration: 0.12, ease: 'power2.out' })
+      .to(cursorBlueOffset, { attr: { dx: 0, dy: 0 }, duration: 0.12, ease: 'power2.out' }, '<');
+  }
+
+  function resetBracketFilter() {
+    if (flickerTween) {
+      flickerTween.kill();
+      flickerTween = null;
+    }
+    gsap.set([cursorRedOffset, cursorBlueOffset], { attr: { dx: 0, dy: 0 } });
+  }
 
   function handleHoverEnter() {
     gsap.to(ring, {
-      scale: 1.3,
-      duration: 0.25,
+      opacity: 0,
+      scale: 1.1,
+      duration: 0.15,
       ease: 'power2.out',
       overwrite: true
     });
 
     gsap.to(distort, {
-      scale: 1.15,
+      scale: 1.2,
       duration: 0.3,
       ease: 'power2.out',
       overwrite: true
     });
 
     gsap.to(core, {
-      scale: 0.75,
-      duration: 0.2,
+      scale: 1.2,
+      duration: 0.18,
       ease: 'power2.out',
       overwrite: true
     });
+
+    if (hasBracket) {
+      bracketCorners.forEach(({ el, sx, sy }) => {
+        gsap.to(el, {
+          x: sx * BRACKET_OPEN,
+          y: sy * BRACKET_OPEN,
+          opacity: 1,
+          duration: 0.22,
+          ease: 'back.out(2.4)',
+          overwrite: true
+        });
+      });
+      playBracketFlicker();
+    }
   }
 
   function handleHoverLeave() {
     gsap.to(ring, {
+      opacity: 0.9,
       scale: 1,
       duration: 0.25,
       ease: 'power2.out',
@@ -248,6 +319,20 @@ export function initCustomCursor() {
       ease: 'power2.out',
       overwrite: true
     });
+
+    if (hasBracket) {
+      bracketCorners.forEach(({ el, sx, sy }) => {
+        gsap.to(el, {
+          x: sx * BRACKET_CLOSED,
+          y: sy * BRACKET_CLOSED,
+          opacity: 0,
+          duration: 0.18,
+          ease: 'power2.in',
+          overwrite: true
+        });
+      });
+      resetBracketFilter();
+    }
   }
 
   function handleCtaHoverEnter(event) {
