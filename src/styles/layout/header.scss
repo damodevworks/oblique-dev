@@ -196,12 +196,19 @@ position: relative;
     bottom: 10%;
     width: 20vw;
     height: 100%;
-    background-image: url('../../../assets/fracture1.jpg');
+    background-image: url('../../../assets/fracture1.webp');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     border-radius: 2rem;
+    filter: url(#fracture-glitch);
 }
+
+.image-fracture:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(var.$colour-primary, 0.35);
+}
+
 .fracture {
     @include accent-font-base;
     position: absolute;
@@ -213,6 +220,23 @@ position: relative;
     font-family: var.$font-secondary;
     font-weight: 400;
     opacity: 0.5;
+}
+
+// Two extra copies of the same text, tinted and blended, snapped in/out of
+// view during the click glitch (fracture.js) for a chromatic-split look
+// that echoes the photo's own RGB-split filter.
+.fracture.fracture-ghost {
+    opacity: 0;
+    pointer-events: none;
+    mix-blend-mode: screen;
+}
+
+.fracture.fracture-ghost--red {
+    color: #ff2b4d;
+}
+
+.fracture.fracture-ghost--cyan {
+    color: #2bdcff;
 }
 
 
@@ -243,9 +267,9 @@ position: relative;
 
 .icons {
   margin: 25px auto 0;
-    pointer-events: none;
     width: 60vw;
     justify-content: space-between;
+    align-items: center;
 
     .fracture-icon {
       width: 59px;
@@ -255,6 +279,24 @@ position: relative;
     .fracture-icon-rotate {
       transform: rotate(180deg);
     }
+}
+
+// Real <button>s wrapping the outer two icons — native keyboard support,
+// no cursor:pointer (same reasoning as the archive arrows: real pointers
+// get the custom GSAP cursor, which cursor:pointer would fight with).
+.fracture-nav-btn {
+    all: unset;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.fracture-nav-btn:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(var.$colour-primary, 0.35);
+    border-radius: 4px;
 }
 
 
