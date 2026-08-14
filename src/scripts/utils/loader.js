@@ -1,9 +1,12 @@
 // === Loader Core Logic ===
-// Simulates system boot progress with randomized status messages
-// and a percentage counter synced to milestone thresholds.
+// Tracks real load progress of the hero's first-paint assets (photo,
+// fracture tile, fonts) instead of a fake timer, paired with randomized
+// status messages synced to milestone thresholds.
 
 // Importing the GSAP boot animation sequence
 import { bootAnimation } from "../gsap/loader";
+import photoUrl from "../../../assets/photo-1.jpg";
+import fractureUrl from "../../../assets/fracture1.webp";
 
 // Percentage milestones that trigger new status messages
 const milestones = [0, 15, 30, 45, 60, 75, 90];
@@ -27,50 +30,57 @@ const progressPercentage = document.querySelector('.progress');
 const loadingStatus = document.querySelector('.loading-status');
 
 // Loader configuration
-const progressInterval = 50;   // Frequency of progress updates (ms)
 const messageInterval = 100;   // Frequency of milestone checks (ms)
-const progressStep = 1;        // Increment per tick (%)
+// Floor so a cache-hit load doesn't flash, and paces the simulated climb
+// below — real load time can only stretch this longer, never shorter.
+const minDisplayTime = 1500;
+// Simulated climb caps here so the bar always reads as "loading" even on
+// a near-instant load — only crosses this once real assets are confirmed.
+const simulatedCeiling = 90;
 let currentStage = 0;          // Tracks overall progress (0–100)
 let milestoneIndex = 0;        // Tracks which milestone we’re currently on
 let lastMessageIndex = -1;     // Prevents repeating the same message twice in a row
-let progressTimer = null;    // Global variable for checking active intervals
 let displayMessageTimer = null // Global variable for checking active intervals
 
-// ---- Check if we have active intervals ----
-function finishLoading() {
-    if (progressTimer) {
-        clearInterval(progressTimer);
-        progressTimer = null;
-    }
+// Resolves once an image has either loaded or failed — a failed asset
+// shouldn't hang the loader forever.
+function loadImage(src) {
+    return new Promise((resolve) => {
+        const img = new Image();
+        img.onload = resolve;
+        img.onerror = resolve;
+        img.src = src;
+    });
+}
 
-    if (displayMessageTimer) {
-        clearInterval(displayMessageTimer);
-        displayMessageTimer = null;
-    }
-} 
+// --- Progress Tracker ---
+// Simulated climb to simulatedCeiling for visible motion; the jump to 100
+// only fires once the real assets resolve and minDisplayTime has passed.
+function trackCriticalAssets(el) {
+    const tasks = [
+        loadImage(photoUrl),
+        loadImage(fractureUrl),
+        document.fonts?.ready ?? Promise.resolve(),
+    ];
 
-// --- Progress Counter ---
-// Increments the percentage value until full completion.
-function updateProgress(el, step, delay) {
-    // Check if we have active interval already
-    if (progressTimer) {
-        clearInterval(progressTimer); // Clear it if we do
-        progressTimer = null;
-    }
-
-    // Start a new interval
-    progressTimer = setInterval(() => {
-        // Clamp currentStage between 0 and 100
-        currentStage = Math.min(100, Math.max(0, currentStage + step));
-        el.innerText = `${currentStage}%`;
-
-        // Stop once loading reaches 100%
-        if (currentStage >= 100) {
-            finishLoading(); // Clean up all intervals
-            // Ensure exact final value for visual consistency
-            el.innerText = "100%";
+    const climbStart = performance.now();
+    const climbTimer = setInterval(() => {
+        const elapsed = performance.now() - climbStart;
+        const target = Math.min(simulatedCeiling, (elapsed / minDisplayTime) * simulatedCeiling);
+        if (target > currentStage) {
+            currentStage = target;
+            el.innerText = `${Math.round(currentStage)}%`;
         }
-    }, delay);
+    }, 50);
+
+    const realDone = Promise.all(tasks);
+    const minDisplay = new Promise((resolve) => setTimeout(resolve, minDisplayTime));
+
+    Promise.all([realDone, minDisplay]).then(() => {
+        clearInterval(climbTimer);
+        currentStage = 100;
+        el.innerText = "100%";
+    });
 }
 
 // --- Message Selector ---
@@ -115,6 +125,6 @@ function updateMessage(el, delay) {
 // Initializes the GSAP boot animation and both progress systems.
 export function bootLoader() {
     bootAnimation(() => currentStage);
-    updateProgress(progressPercentage, progressStep, progressInterval);
+    trackCriticalAssets(progressPercentage);
     updateMessage(loadingStatus, messageInterval);
 }

@@ -26,7 +26,7 @@ initCustomCursor();
 
 // ***** LOADER ****** //
 // false = dev mode - without loader
-const USE_LOADER = false;
+const USE_LOADER = true;
 
 if (USE_LOADER) {
   bootLoader();

@@ -6,12 +6,9 @@ import omkForest from '../../../assets/omk-forest-enhanced.webp';
 
 const FRACTURE_PHOTOS = [fracture1, eddieGlitch, nelliPortal, omkForest];
 
-// Ambient "this is clickable" pulse for the desktop tile — mobile doesn't
-// need it, it has visible prev/next arrows instead. Plain opacity/scale
-// yoyo, no randomized jitter (unlike hero-text-glitch.js's ambient timer);
-// a steady breathing pulse reads as "idle affordance" without competing
-// with the click-glitch itself. Fades for good the first time the tile is
-// actually clicked/activated.
+// Ambient "clickable" pulse for the desktop tile only — mobile already has
+// visible arrows. Plain opacity/scale yoyo, no jitter (unlike
+// hero-text-glitch.js); fades for good on first click.
 function initFractureHint(tile) {
   const hint = tile?.querySelector('.fracture-hint');
   if (!hint) return () => {};

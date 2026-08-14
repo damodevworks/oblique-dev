@@ -233,9 +233,7 @@ position: relative;
 }
 
 // Ambient click affordance for the desktop tile — mobile already has
-// explicit prev/next arrows (.icons), so this only exists here. Pulses on
-// a timer (fracture.js) until the tile is clicked once, then fades for the
-// session. Purely decorative (aria-hidden) and pointer-events:none so it
+// visible arrows. Decorative (aria-hidden) and pointer-events:none so it
 // never intercepts the click/hover it's advertising.
 .fracture-hint {
     position: absolute;

@@ -247,19 +247,19 @@ function updateBar(getProgress) {
     const trackProgress = setInterval(() => {
         const currentProgress = getProgress();
 
-        // Update the tween's target value
+        // On the tick this hits 100, this already tweens smoothly to
+        // scaleX:1 — no separate "snap to final value" needed.
         progressTween.vars.scaleX = currentProgress / 100;
         progressTween.invalidate().restart(); // Refresh and replay the tween
 
         if (currentProgress === 100) {
-             progressTween.vars.scaleX = 1.0; // Exact value at the end
-            progressTween.invalidate().restart().pause(0); // Prevent flicker
             clearInterval(trackProgress);
-            setSeamAfterLayout();
-            animateCurtainReveal();
-        } else {
-            progressTween.vars.scaleX = currentProgress / 100;
-             progressTween.invalidate().restart();
+            // Let the fill tween finish before the curtain takes over —
+            // starting both at once cut the fill short.
+            gsap.delayedCall(animationDuration, () => {
+                setSeamAfterLayout();
+                animateCurtainReveal();
+            });
         }
     }, barInterval);
 }
