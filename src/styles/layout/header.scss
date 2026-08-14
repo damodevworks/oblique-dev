@@ -232,6 +232,62 @@ position: relative;
     box-shadow: 0 0 0 4px rgba(var.$colour-primary, 0.35);
 }
 
+// Ambient click affordance for the desktop tile — mobile already has
+// explicit prev/next arrows (.icons), so this only exists here. Pulses on
+// a timer (fracture.js) until the tile is clicked once, then fades for the
+// session. Purely decorative (aria-hidden) and pointer-events:none so it
+// never intercepts the click/hover it's advertising.
+.fracture-hint {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    color: var.$colour-accent;
+}
+
+.fracture-hint-corner {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border: 2px solid var.$colour-accent;
+}
+
+.fracture-hint-corner--tl {
+    top: 16px;
+    left: 16px;
+    border-right: none;
+    border-bottom: none;
+}
+
+.fracture-hint-corner--tr {
+    top: 16px;
+    right: 16px;
+    border-left: none;
+    border-bottom: none;
+}
+
+.fracture-hint-corner--bl {
+    bottom: 16px;
+    left: 16px;
+    border-right: none;
+    border-top: none;
+}
+
+.fracture-hint-corner--br {
+    bottom: 16px;
+    right: 16px;
+    border-left: none;
+    border-top: none;
+}
+
+.fracture-hint-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 30px;
+    height: 30px;
+    transform: translate(-50%, -50%) rotate(180deg);
+}
+
 .fracture {
     @include accent-font-base;
     position: absolute;
@@ -432,6 +488,7 @@ position: relative;
 
   .hero-right--desktop {display: none;}
   .hero-left--desktop {display: none;}
+  .fracture-hint {display: none;}
   .hero-right--mobile {
     display: block;
     position: relative;

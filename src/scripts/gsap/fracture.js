@@ -6,6 +6,40 @@ import omkForest from '../../../assets/omk-forest-enhanced.webp';
 
 const FRACTURE_PHOTOS = [fracture1, eddieGlitch, nelliPortal, omkForest];
 
+// Ambient "this is clickable" pulse for the desktop tile — mobile doesn't
+// need it, it has visible prev/next arrows instead. Plain opacity/scale
+// yoyo, no randomized jitter (unlike hero-text-glitch.js's ambient timer);
+// a steady breathing pulse reads as "idle affordance" without competing
+// with the click-glitch itself. Fades for good the first time the tile is
+// actually clicked/activated.
+function initFractureHint(tile) {
+  const hint = tile?.querySelector('.fracture-hint');
+  if (!hint) return () => {};
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (reduceMotion) {
+    gsap.set(hint, { opacity: 0.85 });
+  } else {
+    gsap.to(hint, {
+      opacity: 0.95,
+      scale: 1.06,
+      duration: 1.1,
+      ease: 'sine.inOut',
+      yoyo: true,
+      repeat: -1,
+    });
+  }
+
+  let dismissed = false;
+  return () => {
+    if (dismissed) return;
+    dismissed = true;
+    gsap.killTweensOf(hint);
+    gsap.to(hint, { opacity: 0, duration: 0.3, ease: 'power1.out' });
+  };
+}
+
 // Desktop triggers on the tile itself; mobile triggers via the arrow
 // buttons below it instead. Same chromatic-split filter family as the
 // hero's #wave filter.
@@ -20,6 +54,8 @@ export function initFractureGlitch() {
   const cyanGhosts = document.querySelectorAll('.fracture-ghost--cyan');
 
   if (!tiles.length || !redOffset || !blueOffset) return;
+
+  const dismissHint = initFractureHint(desktopTile);
 
   // Fetch the other 3 photos into the browser cache up front, so the
   // mid-glitch swap never has to wait on a first-time network request.
@@ -78,11 +114,15 @@ export function initFractureGlitch() {
   }
 
   if (desktopTile) {
-    desktopTile.addEventListener('click', () => shift(1));
+    const activate = () => {
+      shift(1);
+      dismissHint();
+    };
+    desktopTile.addEventListener('click', activate);
     desktopTile.addEventListener('keydown', (event) => {
       if (event.key === 'Enter' || event.key === ' ') {
         event.preventDefault();
-        shift(1);
+        activate();
       }
     });
   }
