@@ -55,7 +55,7 @@ position: relative;
     display: block;
 }
 
-#echo-CTA {
+.echo-CTA-shape {
     filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.25));
 }
 
@@ -163,9 +163,32 @@ position: relative;
 
 .pathway {
     @include accent-font-base;
-    position: static;
+    position: relative;
     white-space: nowrap;
     font-size: clamp(1.6rem, 1.1vw, 2.8rem);
+}
+
+// Two tinted duplicates of the same text, snapped briefly into view on a
+// timer (hero-text-glitch.js) — same chromatic-split-echo technique already
+// used on the fracture title, just on a timer instead of a click. Shared by
+// .pathway and .location — both are already position:relative so the
+// absolutely-positioned ghosts overlay the real text exactly.
+.glitch-ghost {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    pointer-events: none;
+    mix-blend-mode: screen;
+    white-space: nowrap;
+}
+
+.glitch-ghost--red {
+    color: #ff2b4d;
+}
+
+.glitch-ghost--cyan {
+    color: #2bdcff;
 }
 
 .oblique-hero {
@@ -196,12 +219,73 @@ position: relative;
     bottom: 10%;
     width: 20vw;
     height: 100%;
-    background-image: url('../../../assets/fracture1.jpg');
+    background-image: url('../../../assets/fracture1.webp');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     border-radius: 2rem;
+    filter: url(#fracture-glitch);
 }
+
+.image-fracture:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(var.$colour-primary, 0.35);
+}
+
+// Ambient click affordance for the desktop tile — mobile already has
+// visible arrows. Decorative (aria-hidden) and pointer-events:none so it
+// never intercepts the click/hover it's advertising.
+.fracture-hint {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    color: var.$colour-accent;
+}
+
+.fracture-hint-corner {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border: 2px solid var.$colour-accent;
+}
+
+.fracture-hint-corner--tl {
+    top: 16px;
+    left: 16px;
+    border-right: none;
+    border-bottom: none;
+}
+
+.fracture-hint-corner--tr {
+    top: 16px;
+    right: 16px;
+    border-left: none;
+    border-bottom: none;
+}
+
+.fracture-hint-corner--bl {
+    bottom: 16px;
+    left: 16px;
+    border-right: none;
+    border-top: none;
+}
+
+.fracture-hint-corner--br {
+    bottom: 16px;
+    right: 16px;
+    border-left: none;
+    border-top: none;
+}
+
+.fracture-hint-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 30px;
+    height: 30px;
+    transform: translate(-50%, -50%) rotate(180deg);
+}
+
 .fracture {
     @include accent-font-base;
     position: absolute;
@@ -213,6 +297,23 @@ position: relative;
     font-family: var.$font-secondary;
     font-weight: 400;
     opacity: 0.5;
+}
+
+// Two extra copies of the same text, tinted and blended, snapped in/out of
+// view during the click glitch (fracture.js) for a chromatic-split look
+// that echoes the photo's own RGB-split filter.
+.fracture.fracture-ghost {
+    opacity: 0;
+    pointer-events: none;
+    mix-blend-mode: screen;
+}
+
+.fracture.fracture-ghost--red {
+    color: #ff2b4d;
+}
+
+.fracture.fracture-ghost--cyan {
+    color: #2bdcff;
 }
 
 
@@ -236,16 +337,15 @@ position: relative;
 .hero-left--mobile {
     position: relative;
     width: 95vw;
-    height: auto;
     height: 100vh;
-    margin: 0 auto; 
+    margin: 0 auto;
 }
 
 .icons {
   margin: 25px auto 0;
-    pointer-events: none;
     width: 60vw;
     justify-content: space-between;
+    align-items: center;
 
     .fracture-icon {
       width: 59px;
@@ -255,6 +355,24 @@ position: relative;
     .fracture-icon-rotate {
       transform: rotate(180deg);
     }
+}
+
+// Real <button>s wrapping the outer two icons — native keyboard support,
+// no cursor:pointer (same reasoning as the archive arrows: real pointers
+// get the custom GSAP cursor, which cursor:pointer would fight with).
+.fracture-nav-btn {
+    all: unset;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.fracture-nav-btn:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(var.$colour-primary, 0.35);
+    border-radius: 4px;
 }
 
 
@@ -367,6 +485,7 @@ position: relative;
 
   .hero-right--desktop {display: none;}
   .hero-left--desktop {display: none;}
+  .fracture-hint {display: none;}
   .hero-right--mobile {
     display: block;
     position: relative;
@@ -392,10 +511,18 @@ position: relative;
   }
 
   .pathway {
-    position: static;
+    position: relative;
     text-align: center;
     padding-top: 10px;
     font-size: clamp(var(--pathway-size-min), var(--pathway-size-fluid), var(--pathway-size-max));
+  }
+
+  // Mobile centers the pathway text, so its ghost overlay needs centering
+  // too. Scoped to .pathway only — .location is desktop-only (display:none
+  // on mobile, see below), so its ghosts never need this override.
+  .pathway .glitch-ghost {
+    left: 50%;
+    transform: translateX(-50%);
   }
 
   .noise-index {
@@ -412,7 +539,7 @@ position: relative;
 
 @media (min-width: 1300px) and (max-height: 850px) {
 .hero { margin-top: 7vh;}
-.hero-grid {transform: scale(0.9); transform-origin: center; width: 85%;;}            
+.hero-grid {transform: scale(0.9); transform-origin: center; width: 85%;}
 }
 
 // title SVG

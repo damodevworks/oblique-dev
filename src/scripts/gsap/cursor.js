@@ -175,11 +175,6 @@ export function initCustomCursor() {
   const tickCursor = () => {
     updateCtaMagnetPosition();
 
-    const coreFollowSpeed = isCtaHovered ? 0.03 : 0.18;
-
-    mouseX += (effectiveX - mouseX) * 0;
-    mouseY += (effectiveY - mouseY) * 0;
-
     gsap.set(core, {
       x: effectiveX,
       y: effectiveY
