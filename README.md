@@ -76,6 +76,10 @@ Designed and developed by **Damian**.
 
 [GitHub ↗](https://github.com/damodevworks) · [Contact ↗](mailto:damian.wiewior98@gmail.com)
 
+## License
+
+All rights reserved. The source code and design may not be copied, modified, or redistributed without prior written permission.
+
 ---
 
 `SIGNAL STATUS: ACTIVE` ◉
