@@ -56,6 +56,16 @@
   }
 }
 
+// narrow portrait phones, short viewport (address bar eating into height —
+// see the matching note in header.scss)
+@media (orientation: portrait) and (min-aspect-ratio: 4/10) and (max-aspect-ratio: 7/10) and (min-width: 375px) and (max-width: 600px) and (max-height: 700px) {
+  .CTA-button-mobile {
+    padding-block: clamp(1rem, 1.4vw, 1.3rem);
+    padding-inline: clamp(4.5rem, 9vw, 5rem);
+    font-size: clamp(1.1rem, 3.5vw, 1.6rem) !important;
+  }
+}
+
 // small near-square portrait
 @media (orientation: portrait) and (min-aspect-ratio: 3/4) and (max-aspect-ratio: 1/1) and (max-width: 650px) and (max-height: 750px) {
   .CTA-button-mobile {

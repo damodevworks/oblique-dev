@@ -656,6 +656,21 @@ position: relative;
   }
 }
 
+// Same phones as above, but with the browser chrome (address bar) eating
+// into the viewport — the hero SVG scales off vh (max-height: 80vh) while
+// this text scales off vw, so a shorter-but-same-width viewport shrinks the
+// shape faster than the CTA content, pushing the button past its edge.
+@media (orientation: portrait) and (min-aspect-ratio: 4/10) and (max-aspect-ratio: 71/100) and (min-width: 375px) and (max-width: 599px) and (max-height: 700px) {
+  .hero {
+    --echo-size-min: 2.2rem;
+    --echo-size-fluid: 6vw;
+    --echo-size-max: 2.8rem;
+  }
+  .CTA-container-mobile {
+    gap: 1.5rem;
+  }
+}
+
 // wide portrait / near-landscape tablets
 @media (orientation: portrait) and (min-aspect-ratio: 3/5) and (max-aspect-ratio: 6/5) and (min-width: 600px) {
   .hero {
