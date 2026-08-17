@@ -5,11 +5,3 @@ dist/
 
 # Browser automation session artifacts
 .playwright-mcp/
-
-# Local project instructions (not tracked)
-CLAUDE.md
-
-# Local scratch folder for working notes and reference assets
-claude_work/
-
-.claude
