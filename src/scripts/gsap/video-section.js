@@ -43,3 +43,27 @@ export function initVideoSectionPin() {
     pinVideoSection();
   }
 }
+
+// Mobile browsers (iOS Safari especially) silently pause a looping
+// background video after the tab is backgrounded — lock screen, app switch,
+// low-power mode — and never resume it on their own. Nudge it back to
+// playing whenever the tab regains visibility or the video re-enters view.
+export function initVideoPlayback() {
+  const video = document.querySelector('.video-section-media');
+  if (!video) return;
+
+  const tryPlay = () => { video.play().catch(() => {}); };
+
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) tryPlay();
+  });
+
+  video.addEventListener('pause', tryPlay);
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) tryPlay();
+    });
+  }, { threshold: 0.1 });
+  observer.observe(video);
+}

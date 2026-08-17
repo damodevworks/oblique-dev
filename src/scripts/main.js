@@ -7,7 +7,7 @@ import { initHeroTextGlitch } from './gsap/hero-text-glitch.js';
 import { initCustomCursor } from './gsap/cursor.js';
 import { smoothInit } from './gsap/smooth-scroll.js';
 import { initParallaxPin, initParallaxAmbientLines, initParallaxDepthLayering, initErrorBlink } from './gsap/parallax.js';
-import { initVideoSectionPin } from './gsap/video-section.js';
+import { initVideoSectionPin, initVideoPlayback } from './gsap/video-section.js';
 import { initArchiveAnimation, initArchiveCarousel } from './gsap/archive.js';
 import { initArchiveDetail } from './gsap/archive-detail.js';
 
@@ -39,6 +39,7 @@ initParallaxAmbientLines();
 initParallaxDepthLayering();
 initErrorBlink();
 initVideoSectionPin();
+initVideoPlayback();
 
 // Archive animation
 initArchiveAnimation();
