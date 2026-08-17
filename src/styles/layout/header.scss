@@ -224,6 +224,12 @@ position: relative;
     background-position: center;
     background-repeat: no-repeat;
     border-radius: 2rem;
+}
+
+// Filter only applied during the click-glitch (fracture.js) — leaving an SVG
+// filter permanently on forces filter compositing at rest too, which mobile
+// GPUs often can't accelerate even when the filter itself is a no-op.
+.image-fracture.is-glitching {
     filter: url(#fracture-glitch);
 }
 

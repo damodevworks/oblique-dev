@@ -74,7 +74,12 @@ export function initFractureGlitch() {
     const nextIndex = (currentIndex + direction + total) % total;
     const sign = direction >= 0 ? 1 : -1;
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const tl = gsap.timeline({ onComplete: () => { isAnimating = false; } });
+    const tl = gsap.timeline({
+      onComplete: () => {
+        isAnimating = false;
+        tiles.forEach((tile) => tile.classList.remove('is-glitching'));
+      }
+    });
 
     if (reduceMotion) {
       tl.to(tiles, { opacity: 0.4, duration: 0.15 })
@@ -83,6 +88,8 @@ export function initFractureGlitch() {
       currentIndex = nextIndex;
       return;
     }
+
+    tiles.forEach((tile) => tile.classList.add('is-glitching'));
 
     // Rotate/ghost direction mirrors depending on prev vs next — same idea
     // as the archive carousel's sweep direction matching the arrow clicked.
