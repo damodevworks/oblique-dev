@@ -5,7 +5,7 @@
 .archive {
     position: relative;
     width: 100%;
-    min-height: 100vh;
+    min-height: 100svh;
     overflow: hidden;
     opacity: 0;
     visibility: hidden;
@@ -297,7 +297,7 @@
     z-index: 0;
     top: 55%;
     left: -5%;
-    width: 170vh;
+    width: 170svh;
     height: 1px;
     background-color: var.$colour-black;
     opacity: 0;
@@ -330,9 +330,9 @@
     position: fixed;
     inset: 0;
     width: 100vw;
-    height: 100vh;
+    height: 100svh;
     max-width: 100vw;
-    max-height: 100vh;
+    max-height: 100svh;
     margin: 0;
     padding: 0;
     border: none;
@@ -445,7 +445,7 @@
 
     .archive {
         min-height: auto;
-        padding: 12vh 0 8vh;
+        padding: 12svh 0 8svh;
     }
 
     .archive-hud {
@@ -460,7 +460,7 @@
         position: static;
         display: block;
         text-align: left;
-        margin-top: 3vh;
+        margin-top: 3svh;
         padding: 0 5%;
         font-size: clamp(5.5rem, 16vw, 8.4rem);
     }
@@ -471,7 +471,7 @@
         align-items: center;
         justify-content: center;
         gap: 4vw;
-        margin-top: 6vh;
+        margin-top: 6svh;
     }
 
     // Portrait rectangle (282 wide x 394 tall), grows toward tablet widths.
@@ -525,7 +525,7 @@
         display: flex;
         align-items: flex-end;
         justify-content: space-between;
-        margin-top: 10vh;
+        margin-top: 10svh;
         padding: 0 8%;
     }
 
@@ -549,7 +549,7 @@
     }
 
     .archive-recovery {
-        margin-top: 1.5vh;
+        margin-top: 1.5svh;
     }
 
     .archive-line {
@@ -563,14 +563,14 @@
     }
 
     .archive-detail-image {
-        flex: 0 0 55vh;
+        flex: 0 0 55svh;
     }
 
     .archive-detail-copy {
         flex: 1 1 auto;
         justify-content: flex-start;
         gap: 1.2rem;
-        padding: 9vh 8vw 6vh;
+        padding: 9svh 8vw 6svh;
         overflow-y: auto;
     }
 

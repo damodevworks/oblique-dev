@@ -4,8 +4,8 @@
 .parallax {
     position: relative;
     width: 100%;
-    min-height: 100vh;
-    margin-top: 40vh;
+    min-height: 100svh;
+    margin-top: 40svh;
     overflow: hidden;
     background-image: url('../../../assets/background.jpg');
     background-size: cover;
@@ -40,14 +40,14 @@
 .parallax-line--diagonal {
     top: -5%;
     left: -5%;
-    width: 200vh;
+    width: 200svh;
     transform: rotate(48deg);
 }
 
 .parallax-line--diagonal-2 {
     top: -5%;
     left: 45%;
-    width: 220vh;
+    width: 220svh;
     transform: rotate(38deg);
 }
 
@@ -55,7 +55,7 @@
 .parallax-line--diagonal-3 {
     top: 105%;
     left: 5%;
-    width: 190vh;
+    width: 190svh;
     transform: rotate(-55deg);
 }
 
@@ -148,7 +148,7 @@
 // Mobile — recomposed, not scaled. Only two meteorites are kept.
 @media (orientation: portrait), (max-aspect-ratio: 1/1), (max-aspect-ratio: 12/10) {
     .parallax {
-        margin-top: 20vh;
+        margin-top: 20svh;
     }
 
     .parallax-line--h1 {
@@ -160,17 +160,17 @@
     }
 
     .parallax-line--diagonal {
-        width: 152vh;
+        width: 152svh;
         transform: rotate(80deg);
     }
 
     .parallax-line--diagonal-2 {
-        width: 160vh;
+        width: 160svh;
         transform: rotate(70deg);
     }
 
     .parallax-line--diagonal-3 {
-        width: 155vh;
+        width: 155svh;
         transform: rotate(-75deg);
     }
 
