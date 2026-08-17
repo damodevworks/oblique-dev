@@ -1,8 +1,6 @@
 @use '../utils/variables' as var;
 @use '../utils/mixins' as *;
 
-// Mobile layout added below. Tablet, ultrawide and short-landscape still pending.
-
 .parallax {
     position: relative;
     width: 100%;
