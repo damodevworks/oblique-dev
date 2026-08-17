@@ -2,7 +2,6 @@ import { gsap } from 'gsap';
 
 // Store GSAP timelines for both desktop and mobile SVG animations
 let desktopWaveTimeline = null;
-let mobileWaveTimeline = null;
 let desktopImageTimeline = null;
 let mobileImageTimeline = null;
 let resizeTimeout;
@@ -52,17 +51,6 @@ function createDesktopWaveAnimation(feOffset) {
   });
 }
 
-// Create mobile wave animation timeline
-function createMobileWaveAnimation(feOffset) {
-  return gsap.to(feOffset, {
-    attr: { dx: 100 },
-    duration: 8,
-    repeat: -1,
-    yoyo: true,
-    ease: "none"
-  });
-}
-
 // Handle desktop SVG animation
 function handleDesktopWaveAnimation(svg, feOffset) {
   if (!svg || !feOffset) return;
@@ -80,30 +68,14 @@ function handleDesktopWaveAnimation(svg, feOffset) {
   }
 }
 
-// Handle mobile SVG animation
-function handleMobileWaveAnimation(svg, feOffset) {
-  if (!svg || !feOffset) return;
-  
-  if (isVisible(svg)) {
-    if (!mobileWaveTimeline) {
-      mobileWaveTimeline = createMobileWaveAnimation(feOffset);
-    } else {
-      mobileWaveTimeline.play();
-    }
-  } else {
-    if (mobileWaveTimeline) {
-      mobileWaveTimeline.pause();
-    }
-  }
-}
-
 // Update header wave animations based on current visibility
+// Mobile stays static (feTurbulence + feDisplacementMap still warp the image,
+// just not animated) — animating feOffset there forces a full filter
+// re-rasterize every frame, which tanks mobile framerate.
 function updateHeaderWaveDistortion() {
   const feOffsetDesktop = svgDesktop?.querySelector('feOffset');
-  const feOffsetMobile = svgMobile?.querySelector('feOffset');
 
   handleDesktopWaveAnimation(svgDesktop, feOffsetDesktop);
-  handleMobileWaveAnimation(svgMobile, feOffsetMobile);
 }
 
 // ********* Image Drift Animation *****************
