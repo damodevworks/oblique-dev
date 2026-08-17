@@ -46,22 +46,6 @@ initArchiveAnimation();
 initArchiveCarousel();
 initArchiveDetail();
 
-// TEMP debug overlay — remove after diagnosing the mobile pin issue.
-(function initDebugOverlay() {
-  const el = document.createElement('div');
-  el.style.cssText = 'position:fixed;top:0;left:0;z-index:999999;background:rgba(0,0,0,0.85);color:#0f0;font:11px monospace;padding:4px 6px;pointer-events:none;white-space:pre;';
-  document.body.appendChild(el);
-  let resizes = 0;
-  window.addEventListener('resize', () => { resizes++; });
-  function tick() {
-    const p = document.querySelector('.parallax');
-    const top = p ? Math.round(p.getBoundingClientRect().top) : 'n/a';
-    el.textContent = `h:${window.innerHeight} y:${Math.round(window.scrollY)} pTop:${top} rz:${resizes}`;
-    requestAnimationFrame(tick);
-  }
-  tick();
-})();
-
 // force a full reload on any change instead of letting Vite hot-swap GSAP/ScrollTrigger in place
 if (import.meta.hot) {
   import.meta.hot.accept(() => window.location.reload());
