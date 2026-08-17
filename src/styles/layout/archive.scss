@@ -412,23 +412,23 @@
 
 .archive-detail-eyebrow {
     @include m.accent-font-base;
-    font-size: clamp(1.4rem, 1.3vw, 1.8rem);
+    font-size: clamp(1.8rem, 1.4vw, 2rem);
 }
 
 .archive-detail-title {
-    font-size: clamp(3.8rem, 4vw, 5.6rem);
+    font-size: clamp(5rem, 4.2vw, 6rem);
     font-weight: var.$w-regular;
 }
 
 .archive-detail-status {
     @include m.accent-font-base;
-    font-size: clamp(1.5rem, 1.4vw, 1.9rem);
+    font-size: clamp(1.9rem, 1.5vw, 2.1rem);
 }
 
 .archive-detail-body {
     max-width: 52ch;
     font-family: var.$font-secondary;
-    font-size: clamp(1.7rem, 1.5vw, 2.1rem);
+    font-size: clamp(2.3rem, 1.6vw, 2.4rem);
     line-height: 1.6;
 }
 
@@ -451,7 +451,8 @@
     .archive-hud {
         position: static;
         text-align: center;
-        font-size: clamp(1.6rem, 4.6vw, 2.2rem);
+        white-space: normal;
+        font-size: clamp(1.8rem, 5vw, 2.4rem);
         padding: 0 5%;
     }
 
@@ -461,7 +462,7 @@
         text-align: left;
         margin-top: 3vh;
         padding: 0 5%;
-        font-size: clamp(5rem, 15vw, 7.6rem);
+        font-size: clamp(5.5rem, 16vw, 8.4rem);
     }
 
     .archive-carousel {
@@ -477,7 +478,7 @@
     .archive-frame {
         position: relative;
         flex-shrink: 0;
-        width: clamp(230px, 62vw, 380px);
+        width: clamp(250px, 68vw, 400px);
         aspect-ratio: 282 / 394;
         border: 0.55px solid rgba(0, 0, 0, 0.4);
         box-sizing: border-box;
@@ -499,7 +500,7 @@
         z-index: 1;
         top: 50%;
         left: 50%;
-        width: 66%;
+        width: 72%;
         aspect-ratio: 282 / 394;
         overflow: hidden;
         transform: translate(-50%, -50%);
@@ -517,7 +518,7 @@
         left: auto;
         z-index: 1;
         transform: none;
-        font-size: clamp(4.5rem, 15vw, 6.8rem);
+        font-size: clamp(5rem, 16vw, 7.4rem);
     }
 
     .archive-footer {
@@ -544,7 +545,7 @@
     .archive-recovery {
         position: static;
         display: block;
-        font-size: clamp(1.6rem, 4.6vw, 2.2rem);
+        font-size: clamp(1.8rem, 5vw, 2.4rem);
     }
 
     .archive-recovery {
