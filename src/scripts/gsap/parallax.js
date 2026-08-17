@@ -64,9 +64,8 @@ export function initParallaxPin() {
     buildPinTimeline();
   }
 
-  // page geometry can still shift after images/fonts finish loading —
-  // re-measure the pin boundaries once everything has settled.
-  window.addEventListener('load', () => ScrollTrigger.refresh());
+  // Re-measure once after the reveal, when layout is final.
+  document.addEventListener('loader:complete', () => ScrollTrigger.refresh(), { once: true });
 }
 
 // gsap.utils.random(-N, N) alone can draw a value near zero — guarantee a
