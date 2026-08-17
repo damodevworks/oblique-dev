@@ -3,7 +3,6 @@ import { gsap } from 'gsap';
 // Store GSAP timelines for both desktop and mobile SVG animations
 let desktopWaveTimeline = null;
 let desktopImageTimeline = null;
-let mobileImageTimeline = null;
 let resizeTimeout;
 
 // Global DOM elements
@@ -129,66 +128,6 @@ function createDesktopImageDrift(image) {
   return tl;
 }
 
-function createMobileImageDrift(image) {
-  gsap.set(image, {
-    transformBox: 'fill-box',
-    transformOrigin: '50% 50%'
-  });
-
-  const tl = gsap.timeline({
-    repeat: -1,
-    repeatRefresh: true,
-    defaults: {
-      ease: 'sine.inOut'
-    }
-  });
-
-  tl
-    .to(image, {
-      attr: {
-        x: () => randomBetween(-24, -10),
-        y: () => randomBetween(-20, -34)
-      },
-      duration: () => randomBetween(3.2, 4.8)
-    })
-    .to(image, {
-      scale: () => randomBetween(1.02, 1.2),
-      duration: () => randomBetween(2, 3)
-    }, '<')
-    .to(image, {
-      attr: {
-        x: () => randomBetween(2, 10),
-        y: () => randomBetween(-8, -26)
-      },
-      duration: () => randomBetween(3, 5)
-    })
-    .to(image, {
-      scale: () => randomBetween(0.998, 1.2),
-      duration: () => randomBetween(1.8, 2.8)
-    }, '<')
-    .to(image, {
-      attr: {
-        x: () => randomBetween(-12, 2),
-        y: () => randomBetween(-18, -6)
-      },
-      duration: () => randomBetween(2.6, 4.2)
-    })
-    .to(image, {
-      scale: () => randomBetween(1.01, 1.08),
-      duration: () => randomBetween(1.8, 2.6)
-    }, '<')
-    .to(image, {
-      attr: {
-        x: 0,
-        y: 0
-      },
-      scale: 1,
-      duration: () => randomBetween(3.4, 5.2)
-    });
-
-  return tl;
-}
-
 function handleDesktopImageDrift(svg, image) {
  if (!svg || !image) return;
  if (isVisible(svg)) {
@@ -204,25 +143,11 @@ function handleDesktopImageDrift(svg, image) {
  }
 }
 
-function handleMobileImageDrift (svg, image) {
-   if (!svg || !image) return;
- if (isVisible(svg)) {
-  if (!mobileImageTimeline) {
-    mobileImageTimeline = createMobileImageDrift(image);
-  } else {
-    mobileImageTimeline.play();
-  }
- } else {
-  if (mobileImageTimeline) {
-    mobileImageTimeline.pause();
-  }
- }
-}
+// Mobile stays static — same reason as the wave distortion above, animating
+// this image's position/scale forces the same expensive filter re-rasterize.
 function updateHeaderImageDrift() {
   const imageDesktop = svgDesktop?.querySelector('#svg-image-desktop');
-  const imageMobile = svgMobile?.querySelector('#svg-image-mobile');
   handleDesktopImageDrift(svgDesktop, imageDesktop);
-  handleMobileImageDrift(svgMobile, imageMobile);
 }
 
 // Initialize header wave animations
