@@ -18,3 +18,24 @@
     object-position: center;
     pointer-events: none;
 }
+
+// Fills over the scroll-hold duration (video-section.js) so the freeze reads as intentional, not stuck.
+.video-hold-bar {
+    position: absolute;
+    bottom: 8%;
+    left: 50%;
+    width: clamp(120px, 20vw, 240px);
+    height: 2px;
+    transform: translateX(-50%);
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.video-hold-bar-fill {
+    width: 100%;
+    height: 100%;
+    background-color: var.$colour-accent;
+    transform: scaleX(0);
+    transform-origin: left;
+}
