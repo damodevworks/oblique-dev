@@ -3,13 +3,13 @@ dist/
 .vite/.DS_Store
 .DS_Store
 
-# Playwright MCP session artifacts (snapshots/console logs auto-saved by the tool)
+# Browser automation session artifacts
 .playwright-mcp/
 
-# Claude Code project instructions (kept locally, not tracked)
+# Local project instructions (not tracked)
 CLAUDE.md
 
-# Scratch folder for instructions/screenshots for Claude to reference
+# Local scratch folder for working notes and reference assets
 claude_work/
 
 .claude
