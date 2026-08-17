@@ -4,9 +4,6 @@ import { ScrollSmoother } from "gsap/ScrollSmoother";
 
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
-// Ignore resize events from mobile browser chrome show/hide.
-ScrollTrigger.config({ ignoreMobileResize: true });
-
 export function smoothInit () {
     return ScrollSmoother.create({
         wrapper: '#smooth-wrapper',
