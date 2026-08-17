@@ -11,7 +11,9 @@ import { initVideoSectionPin } from './gsap/video-section.js';
 import { initArchiveAnimation, initArchiveCarousel } from './gsap/archive.js';
 import { initArchiveDetail } from './gsap/archive-detail.js';
 
-// Chrome keeps re-restoring the old scroll position as images load in, so keep forcing it back to 0
+// Chrome keeps re-restoring the old scroll position as images load in — on a
+// long page a single reset can lose that race, so keep forcing it back to 0
+// for as long as the loader is up, not just once.
 if ('scrollRestoration' in history) {
   history.scrollRestoration = 'manual';
 }
@@ -19,6 +21,8 @@ const forceScrollTop = () => window.scrollTo(0, 0);
 forceScrollTop();
 window.addEventListener('load', forceScrollTop);
 window.addEventListener('pageshow', forceScrollTop);
+const scrollLockInterval = setInterval(forceScrollTop, 100);
+document.addEventListener('loader:complete', () => clearInterval(scrollLockInterval), { once: true });
 
 // Mark styles ready (FOUC prevention)
 document.documentElement.classList.add('styles-ready');
