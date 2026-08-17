@@ -40,7 +40,6 @@ lockCentering();
       end: () => '+=' + document.querySelector('.parallax').offsetHeight * 1.5,
       pin: true,
       scrub: true, // ScrollSmoother already smooths the input — a second scrub lag on top overshoots
-      anticipatePin: 1,
       onUpdate: (self) => updateIndexReadout(self.progress)
     },
     defaults: { ease: 'none' }
