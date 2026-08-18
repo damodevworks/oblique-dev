@@ -39,6 +39,7 @@ lockCentering();
       // infer the wrong axis from the percentage
       end: () => '+=' + document.querySelector('.parallax').offsetHeight * 1.5,
       pin: true,
+      anticipatePin: 1,
       scrub: true, // ScrollSmoother already smooths the input — a second scrub lag on top overshoots
       onUpdate: (self) => updateIndexReadout(self.progress)
     },
